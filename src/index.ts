@@ -22,8 +22,8 @@ export default new Game({
   },
   backgroundColor: "#70b5ee",
   scene: [
-    GameScene,
     BootloaderScene,
+    GameScene,
     StartScene,
     GameOverScene,
     CreditsScene,
