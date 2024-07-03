@@ -1,0 +1,19 @@
+{
+  "name": "level-up-jam-2024",
+  "version": "1.0.0",
+  "scripts": {
+    "vite": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "dev": "vite"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.9",
+    "typescript": "^5.5.3",
+    "vite": "^5.3.3"
+  },
+  "dependencies": {
+    "phaser": "^3.80.1",
+    "tmi.js": "^1.8.5"
+  }
+}
