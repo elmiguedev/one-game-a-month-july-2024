@@ -107,5 +107,14 @@ export class GameScene extends Scene {
       },
       loop: true
     })
+    this.time.addEvent({
+      delay: 1000,
+      callback: () => {
+        this.victims.getChildren().forEach((w: Victim) => {
+          w.insane();
+        });
+      },
+      loop: true
+    })
   }
 }
