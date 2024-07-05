@@ -21,7 +21,7 @@ export class GameScene extends Scene {
     this.createHouse();
     this.createVictims();
     this.createWindows();
-    // this.createApocalypsis();
+    this.createApocalypsis();
 
     this.createCollisions();
 
@@ -71,7 +71,12 @@ export class GameScene extends Scene {
       ) as Window;
       window.onClick = () => {
         if (this.selectedVictim) {
-          this.selectedVictim.repairWindow(window);
+          const distance = Phaser.Math.Distance.Between(this.selectedVictim.x, this.selectedVictim.y, window.x, window.y);
+          if (distance < 100) {
+            this.selectedVictim.repairWindow(window);
+          } else {
+            this.selectedVictim.move(window.x, window.y);
+          }
         }
       }
     });

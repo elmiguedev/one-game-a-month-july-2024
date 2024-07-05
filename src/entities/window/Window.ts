@@ -43,9 +43,8 @@ export class Window extends Phaser.GameObjects.Container {
 
   private createHpBar() {
     const x = 0;
-    const y = this.y - 10;
+    const y = this.y - 120;
     this.hpBar = this.scene.add.rectangle(x, y, 200, 10, 0x00FF00);
-    this.hpBar.setOrigin(0, 0);
     this.hpBar.setDepth(1);
     this.add(this.hpBar);
   }
