@@ -12,7 +12,7 @@ export class Window extends Phaser.GameObjects.Container {
     super(scene, x, y);
 
     this.windowImage = this.scene.add.image(0, 0, 'window');
-    this.windowImage.setOrigin(0, 0);
+
     this.add(this.windowImage);
     this.scene.add.existing(this);
 
@@ -24,7 +24,6 @@ export class Window extends Phaser.GameObjects.Container {
     })
 
     this.createHpBar();
-
   }
 
   public repair() {

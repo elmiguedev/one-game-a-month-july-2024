@@ -6,8 +6,8 @@ export const VICTIM_MAX_INSANITY = 10;
 export const LEVELS = [
   {
     windows: [
-      { x: 276, y: 12 },
-      { x: 772, y: 12 },
+      { x: 276, y: 70 },
+      { x: 772, y: 70 },
     ]
   }
 ]

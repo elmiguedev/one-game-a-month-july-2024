@@ -20,7 +20,7 @@ export class GameScene extends Scene {
   public create() {
     this.createHouse();
     this.createVictims();
-    // this.createWindows();
+    this.createWindows();
     // this.createApocalypsis();
 
     this.createCollisions();
