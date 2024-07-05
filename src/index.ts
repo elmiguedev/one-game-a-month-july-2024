@@ -13,11 +13,7 @@ export default new Game({
   physics: {
     default: "arcade",
     arcade: {
-      gravity: {
-        y: 0,
-        x: 0
-      },
-      debug: false
+      debug: true
     }
   },
   backgroundColor: "#70b5ee",

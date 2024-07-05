@@ -2,7 +2,7 @@ import { Scene } from "phaser";
 import { House } from "../entities/house/House";
 import { Victim } from "../entities/victim/Victim";
 import { Window } from "../entities/window/Window";
-import { LEVELS, VICTIMS_COUNT } from "../constants";
+import { LEVELS, VICTIM_VELOCITY, VICTIMS_COUNT } from "../constants";
 
 export class GameScene extends Scene {
   private house: House;
@@ -20,18 +20,20 @@ export class GameScene extends Scene {
   public create() {
     this.createHouse();
     this.createVictims();
-    this.createWindows();
-    this.createApocalypsis();
+    // this.createWindows();
+    // this.createApocalypsis();
 
-    this.input.on('pointerdown', (e: any) => {
-      if (this.selectedVictim) {
-        this.selectedVictim.goto(e.worldX, e.worldY);
+    this.createCollisions();
+
+    this.input.on('pointerdown', (e: any, g: any) => {
+      if (this.selectedVictim && g.length === 0) {
+        this.selectedVictim.move(e.worldX, e.worldY);
       }
     })
   }
 
   private createHouse() {
-    this.house = new House(this, 0, 0);
+    this.house = new House(this);
   }
 
   private createVictims() {
@@ -45,31 +47,15 @@ export class GameScene extends Scene {
       const y = Phaser.Math.Between(200, 500);
       const victim = this.victims.get(x, y) as Victim;
       victim.onClick = () => {
-        if (this.selectedVictim) {
-          if (victim.isInsane) {
-            this.selectedVictim.talkVictim(victim)
-          } else {
-            this.selectedVictim = victim;
-            this.selectedVictim.select();
-            this.victims.getChildren().forEach((v: Victim) => {
-              if (this.selectedVictim !== v)
-                v.unselect();
-            })
-
-          }
-          this.selectedVictim.talkVictim(victim)
-        } else {
-          this.selectedVictim = victim;
-          this.selectedVictim.select();
-          this.victims.getChildren().forEach((v: Victim) => {
-            if (this.selectedVictim !== v)
-              v.unselect();
-          })
-
-        }
+        this.victims.getChildren().forEach((w: Victim) => {
+          w.unselect();
+        })
+        this.selectedVictim = victim;
+        this.selectedVictim.select();
       }
     }
   }
+
 
   private createWindows() {
     this.windows = this.physics.add.group({
@@ -111,10 +97,29 @@ export class GameScene extends Scene {
       delay: 1000,
       callback: () => {
         this.victims.getChildren().forEach((w: Victim) => {
-          w.insane();
+          // w.insane();
         });
       },
       loop: true
     })
+  }
+
+  private createCollisions() {
+    this.physics.add.collider(this.victims, this.house.walls, (v1: Victim, w: any) => {
+      v1.setVelocity(0)
+    })
+    this.physics.add.collider(this.victims, this.victims, (v1: Victim, v2: Victim) => {
+      if (v2 === this.selectedVictim || v1 === this.selectedVictim) {
+        const other = v1 === this.selectedVictim ? v2 : v1;
+        const angle = Phaser.Math.Angle.Between(this.selectedVictim.x, this.selectedVictim.y, other.x, other.y) + Math.PI / 2;
+        this.selectedVictim.setVelocity(Math.cos(angle) * VICTIM_VELOCITY, Math.sin(angle) * VICTIM_VELOCITY);
+
+        // Opcional: recalcular la trayectoria al destino después de esquivar
+        this.time.delayedCall(100, () => {
+          this.selectedVictim.moveToTarget();
+        });
+      }
+    });
+    // this.physics.add.collider(this.house, this.windows);
   }
 }
