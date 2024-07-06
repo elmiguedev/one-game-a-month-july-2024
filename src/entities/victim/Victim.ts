@@ -3,6 +3,8 @@ import { Window } from "../window/Window";
 
 export class Victim extends Phaser.Physics.Arcade.Sprite {
   private target: Phaser.Types.Math.Vector2Like;
+  private isRepairing: boolean = false;
+  private isTalking: boolean = false;
   public onClick: () => void;
   public insanity: number = 0;
 
@@ -44,16 +46,24 @@ export class Victim extends Phaser.Physics.Arcade.Sprite {
   }
 
   public talkVictim(victim: Victim) {
-    victim.sane() // TODO: esto tiene que ser con un timer
+    if (!this.isTalking) {
+      this.setVelocity(0);
+      this.isTalking = true;
+      this.scene.time.delayedCall(3000, () => {
+        victim.sane()
+        this.isTalking = false;
+      })
+    }
   }
 
   public move(x: number, y: number) {
-    if (this.isInsane) return;
+    if (this.isInsane || this.isTalking) return;
     this.scene.physics.moveTo(this, x, y, VICTIM_VELOCITY);
     this.target = { x, y };
   }
 
   public moveToTarget() {
+    if (this.isInsane || this.isTalking) return;
     if (this.target) {
       this.scene.physics.moveTo(this, this.target.x, this.target.y, VICTIM_VELOCITY);
     }
@@ -62,14 +72,23 @@ export class Victim extends Phaser.Physics.Arcade.Sprite {
   private checkTarget() {
     if (this.target) {
       const distance = Phaser.Math.Distance.Between(this.x, this.y, this.target.x, this.target.y);
-      if (distance < 10) {
+      if (distance < 50) {
         this.setVelocity(0);
+        // this.target = undefined;
       }
     }
   }
 
   private checkInsanity() {
     const insanityLevel = VICTIM_MAX_INSANITY / 4;
+    if (this.isTalking) {
+      this.anims.play({
+        key: "talk",
+        repeat: 1
+      }, true);
+      this.setVelocity(0);
+      return;
+    }
     if (this.insanity <= insanityLevel) {
       this.anims.play("sane");
     } else if (this.insanity <= insanityLevel * 2) {
