@@ -42,7 +42,14 @@ export class Victim extends Phaser.Physics.Arcade.Sprite {
   }
 
   public repairWindow(window: Window) {
-    window.repair()
+    if (!this.isRepairing) {
+      this.setVelocity(0);
+      this.isRepairing = true;
+      this.scene.time.delayedCall(3000, () => {
+        window.repair()
+        this.isRepairing = false;
+      })
+    }
   }
 
   public talkVictim(victim: Victim) {
@@ -57,13 +64,13 @@ export class Victim extends Phaser.Physics.Arcade.Sprite {
   }
 
   public move(x: number, y: number) {
-    if (this.isInsane || this.isTalking) return;
+    if (this.isInsane || this.isTalking || this.isRepairing) return;
     this.scene.physics.moveTo(this, x, y, VICTIM_VELOCITY);
     this.target = { x, y };
   }
 
   public moveToTarget() {
-    if (this.isInsane || this.isTalking) return;
+    if (this.isInsane || this.isTalking || this.isRepairing) return;
     if (this.target) {
       this.scene.physics.moveTo(this, this.target.x, this.target.y, VICTIM_VELOCITY);
     }
@@ -74,7 +81,6 @@ export class Victim extends Phaser.Physics.Arcade.Sprite {
       const distance = Phaser.Math.Distance.Between(this.x, this.y, this.target.x, this.target.y);
       if (distance < 50) {
         this.setVelocity(0);
-        // this.target = undefined;
       }
     }
   }
@@ -84,6 +90,14 @@ export class Victim extends Phaser.Physics.Arcade.Sprite {
     if (this.isTalking) {
       this.anims.play({
         key: "talk",
+        repeat: 1
+      }, true);
+      this.setVelocity(0);
+      return;
+    }
+    if (this.isRepairing) {
+      this.anims.play({
+        key: "repair",
         repeat: 1
       }, true);
       this.setVelocity(0);
