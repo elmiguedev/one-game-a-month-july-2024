@@ -26,8 +26,8 @@ export class Window extends Phaser.GameObjects.Container {
     this.createHpBar();
   }
 
-  public repair() {
-    this.hp += WINDOW_REPAIR_VALUE;
+  public repair(value: number = WINDOW_HP) {
+    this.hp += value;
     if (this.hp >= WINDOW_HP) {
       this.hp = WINDOW_HP;
     }

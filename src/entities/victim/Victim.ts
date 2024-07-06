@@ -23,6 +23,10 @@ export class Victim extends Phaser.Physics.Arcade.Sprite {
     })
   }
 
+  public get isInsane() {
+    return this.insanity >= VICTIM_MAX_INSANITY;
+  }
+
   public update() {
     this.checkTarget();
   }
@@ -40,10 +44,11 @@ export class Victim extends Phaser.Physics.Arcade.Sprite {
   }
 
   public talkVictim(victim: Victim) {
-    victim.sane(VICTIM_SANE_VALUE)
+    victim.sane() // TODO: esto tiene que ser con un timer
   }
 
   public move(x: number, y: number) {
+    if (this.isInsane) return;
     this.scene.physics.moveTo(this, x, y, VICTIM_VELOCITY);
     this.target = { x, y };
   }
@@ -73,6 +78,8 @@ export class Victim extends Phaser.Physics.Arcade.Sprite {
       this.anims.play("worried");
     } else if (this.insanity >= VICTIM_MAX_INSANITY) {
       this.anims.play("insane");
+      this.setVelocity(0);
+      this.unselect();
     }
   }
 
@@ -80,11 +87,12 @@ export class Victim extends Phaser.Physics.Arcade.Sprite {
   //   this.setFrame(1);
   // }
 
-  public sane(value: number = 1) {
-    this.insanity -= value;
-    if (this.insanity < 0) {
-      this.insanity = 0;
-    }
+  public sane() {
+    // this.insanity -= value;
+    // if (this.insanity < 0) {
+    //   this.insanity = 0;
+    // }
+    this.insanity = 0;
     this.checkInsanity();
   }
 

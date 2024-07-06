@@ -3,11 +3,13 @@ import { House } from "../entities/house/House";
 import { Victim } from "../entities/victim/Victim";
 import { Window } from "../entities/window/Window";
 import { LEVELS, VICTIM_VELOCITY, VICTIMS_COUNT } from "../constants";
+import { Wind } from "../entities/wind/Wind";
 
 export class GameScene extends Scene {
   private house: House;
   private victims: Phaser.Physics.Arcade.Group;
   private windows: Phaser.Physics.Arcade.Group;
+  private storm: Phaser.Physics.Arcade.Group;
 
   private selectedVictim: Victim;
 
@@ -21,6 +23,7 @@ export class GameScene extends Scene {
     this.createHouse();
     this.createVictims();
     this.createWindows();
+    this.createStorm();
     this.createApocalypsis();
 
     this.createCollisions();
@@ -47,11 +50,25 @@ export class GameScene extends Scene {
       const y = Phaser.Math.Between(200, 500);
       const victim = this.victims.get(x, y) as Victim;
       victim.onClick = () => {
-        this.victims.getChildren().forEach((w: Victim) => {
-          w.unselect();
-        })
-        this.selectedVictim = victim;
-        this.selectedVictim.select();
+        if (this.selectedVictim && !this.selectedVictim.isInsane && victim.isInsane) {
+          const distance = Phaser.Math.Distance.Between(this.selectedVictim.x, this.selectedVictim.y, victim.x, victim.y);
+          if (distance < 150) {
+            console.log("cura")
+            this.selectedVictim.talkVictim(victim);
+          } else {
+            console.log("mueve")
+
+            this.selectedVictim.move(victim.x, victim.y);
+          }
+        } else {
+          if (!victim.isInsane) {
+            this.victims.getChildren().forEach((w: Victim) => {
+              w.unselect();
+            })
+            this.selectedVictim = victim;
+            this.selectedVictim.select();
+          }
+        }
       }
     }
   }
@@ -82,9 +99,16 @@ export class GameScene extends Scene {
     });
   }
 
-  private repairWindow(window: Window) {
-    if (this.selectedVictim) {
-      this.selectedVictim.repairWindow(window);
+  private createStorm() {
+    this.storm = this.physics.add.group({
+      classType: Wind,
+    });
+
+    for (let i = 0; i < 14; i++) {
+      this.storm.get(100 * i, 20)
+      this.storm.get(100 * i, 700)
+      this.storm.get(20, 100 * i)
+      this.storm.get(1270, 100 * i)
     }
   }
 
@@ -102,7 +126,7 @@ export class GameScene extends Scene {
       delay: 1000,
       callback: () => {
         this.victims.getChildren().forEach((w: Victim) => {
-          // w.insane();
+          w.insane(Phaser.Math.Between(0, 1)); // TODO: change to improve
         });
       },
       loop: true
