@@ -4,8 +4,11 @@ export class Window extends Phaser.GameObjects.Container {
 
   private windowImage: Phaser.GameObjects.Image;
   private hp: number = WINDOW_HP;
-  private hpBar: Phaser.GameObjects.Rectangle;
+  private alert: Phaser.GameObjects.Image;
+  private alertTimer: Phaser.Time.TimerEvent;
+  private breakTimer: Phaser.Time.TimerEvent;
 
+  public onBreak: () => void;
   public onClick: () => void;
 
   constructor(scene: Phaser.Scene, x: number, y: number) {
@@ -23,34 +26,58 @@ export class Window extends Phaser.GameObjects.Container {
       }
     })
 
-    this.createHpBar();
   }
 
   public repair(value: number = WINDOW_HP) {
-    this.hp += value;
-    if (this.hp >= WINDOW_HP) {
-      this.hp = WINDOW_HP;
-    }
+    this.hideAlert();
   }
 
   public damage(value: number = 1) {
-    this.hp -= value;
-    if (this.hp <= 0) {
-      this.hp = 0;
+    if (this.breakTimer) return;
+    this.showAlert();
+    this.breakTimer = this.scene.time.delayedCall(8000, () => {
+      if (this.onBreak) {
+        this.onBreak();
+      }
+    })
+  }
+
+  private showAlert() {
+    if (!this.alert) {
+      this.alert = this.scene.add.image(
+        this.x,
+        this.y - 30,
+        'repair'
+      ).setVisible(false).setScale(0.5);
+      this.alertTimer = this.scene.time.addEvent({
+        delay: 500,
+        callback: () => {
+          this.alert.setVisible(!this.alert.visible)
+        },
+        loop: true
+      })
     }
-    this.updateHpBar();
+
+    this.alertTimer.reset({
+      delay: 1000,
+      callback: () => {
+        this.alert.setVisible(!this.alert.visible)
+      },
+      loop: true
+    });
+
+
+
   }
 
-  private createHpBar() {
-    const x = 0;
-    const y = this.y - 120;
-    this.hpBar = this.scene.add.rectangle(x, y, 200, 10, 0x00FF00);
-    this.hpBar.setDepth(1);
-    this.add(this.hpBar);
-  }
+  private hideAlert() {
+    if (this.alertTimer) {
+      this.alertTimer.destroy();
+      this.breakTimer.destroy();
+      this.breakTimer = undefined;
+    }
 
-  private updateHpBar() {
-    this.hpBar.displayWidth = this.hp / WINDOW_HP * 200;
+    this.alert.setVisible(false);
   }
 
 }

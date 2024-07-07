@@ -4,6 +4,7 @@ import { HouseStorm } from "../entities/wind/HouseStorm";
 import { MenuButton } from "../entities/menu/MenuButton";
 import { MENU_FADE_TIME } from "../constants";
 import { ApocalypsisStorm } from "../entities/wind/ApocalypsisStorm";
+import { SoundManager } from "../utlis/SoundManager";
 
 export class StartScene extends Scene {
   private startButton: MenuButton;
@@ -38,6 +39,8 @@ export class StartScene extends Scene {
       this.fadeEntities();
       this.apocalypsisStorm.start();
     });
+
+    SoundManager.getInstance(this).playStormBackground();
   }
 
   public startGame() {

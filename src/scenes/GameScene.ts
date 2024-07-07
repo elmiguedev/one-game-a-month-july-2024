@@ -4,12 +4,15 @@ import { Victim } from "../entities/victim/Victim";
 import { Window } from "../entities/window/Window";
 import { LEVELS, MENU_FADE_TIME, VICTIM_VELOCITY, VICTIMS_COUNT } from "../constants";
 import { HouseStorm } from "../entities/wind/HouseStorm";
+import { SoundManager } from "../utlis/SoundManager";
+import { ApocalypsisStorm } from "../entities/wind/ApocalypsisStorm";
 
 export class GameScene extends Scene {
   private house: House;
   private victims: Phaser.Physics.Arcade.Group;
   private windows: Phaser.Physics.Arcade.Group;
   private houseStorm: HouseStorm;
+  private apocalypsisStorm: ApocalypsisStorm;
 
   private selectedVictim: Victim;
 
@@ -93,6 +96,9 @@ export class GameScene extends Scene {
           }
         }
       }
+      window.onBreak = () => {
+        this.gameOver();
+      }
     });
   }
 
@@ -101,11 +107,15 @@ export class GameScene extends Scene {
   }
 
   private createApocalypsis() {
+    this.apocalypsisStorm = new ApocalypsisStorm(this);
     this.time.addEvent({
-      delay: 500,
+      delay: 5000,
       callback: () => {
         this.windows.getChildren().forEach((w: Window) => {
-          w.damage();
+          const prob = Phaser.Math.Between(1, 5);
+          if (prob === 1) {
+            w.damage();
+          }
         });
       },
       loop: true
@@ -155,6 +165,21 @@ export class GameScene extends Scene {
       targets: [...this.windows.getChildren(), ...this.victims.getChildren()],
       alpha: 1,
       duration: MENU_FADE_TIME
+    })
+  }
+
+  private gameOver() {
+    this.apocalypsisStorm.start();
+    this.time.addEvent({
+      delay: 500,
+      callback: () => {
+        SoundManager.getInstance(this).playApocalypsis();
+      },
+      loop: true
+    })
+
+    this.time.delayedCall(5000, () => {
+      this.scene.start('StartScene');
     })
   }
 }

@@ -1,3 +1,4 @@
+import { SoundManager } from "../../utlis/SoundManager";
 import { VICTIM_MAX_INSANITY, VICTIM_SANE_VALUE, VICTIM_VELOCITY } from "../../constants";
 import { Window } from "../window/Window";
 
@@ -7,6 +8,8 @@ export class Victim extends Phaser.Physics.Arcade.Sprite {
   private isTalking: boolean = false;
   public onClick: () => void;
   public insanity: number = 0;
+  private alertTimer: Phaser.Time.TimerEvent;
+  private alert: Phaser.GameObjects.Image;
 
   constructor(scene: Phaser.Scene, x: number, y: number) {
     super(scene, x, y, 'victim');
@@ -46,6 +49,7 @@ export class Victim extends Phaser.Physics.Arcade.Sprite {
       this.setVelocity(0);
       this.isRepairing = true;
       this.checkInsanity();
+      SoundManager.getInstance(this.scene).playRepair();
       this.scene.time.delayedCall(3000, () => {
         window.repair()
         this.isRepairing = false;
@@ -59,6 +63,7 @@ export class Victim extends Phaser.Physics.Arcade.Sprite {
       this.setVelocity(0);
       this.isTalking = true;
       this.checkInsanity();
+      SoundManager.getInstance(this.scene).playTalk();
       this.scene.time.delayedCall(3000, () => {
         victim.sane()
         this.isTalking = false;
@@ -117,6 +122,8 @@ export class Victim extends Phaser.Physics.Arcade.Sprite {
       this.anims.play("insane");
       this.setVelocity(0);
       this.unselect();
+      this.showAlert();
+      SoundManager.getInstance(this.scene).playPanic();
     }
   }
 
@@ -130,6 +137,7 @@ export class Victim extends Phaser.Physics.Arcade.Sprite {
     //   this.insanity = 0;
     // }
     this.insanity = 0;
+    this.hideAlert();
     this.checkInsanity();
   }
 
@@ -141,5 +149,40 @@ export class Victim extends Phaser.Physics.Arcade.Sprite {
     this.checkInsanity();
   }
 
+  private showAlert() {
+    if (!this.alert) {
+      this.alert = this.scene.add.image(
+        this.x,
+        this.y - 30,
+        'calmar'
+      ).setVisible(false).setScale(0.5);
+      this.alertTimer = this.scene.time.addEvent({
+        delay: 500,
+        callback: () => {
+          this.alert.setVisible(!this.alert.visible)
+        },
+        loop: true
+      })
+    }
+
+    this.alertTimer.reset({
+      delay: 1000,
+      callback: () => {
+        this.alert.setVisible(!this.alert.visible)
+      },
+      loop: true
+    });
+
+
+
+  }
+
+  private hideAlert() {
+    if (this.alertTimer) {
+      this.alertTimer.destroy();
+    }
+
+    this.alert.setVisible(false);
+  }
 
 }

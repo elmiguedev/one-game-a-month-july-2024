@@ -14,10 +14,10 @@ export class House {
 
   private createWalls() {
     this.walls = this.scene.physics.add.staticGroup();
-    const topWall = this.scene.add.rectangle(0, 60, 1280, 10, 0x000000).setOrigin(0, 0);
-    const bottomWall = this.scene.add.rectangle(0, 660, 1280, 10, 0x000000).setOrigin(0, 0);
-    const leftWall = this.scene.add.rectangle(60, 0, 10, 720, 0x000000).setOrigin(0, 0);
-    const rightWall = this.scene.add.rectangle(1210, 0, 10, 720, 0x000000).setOrigin(0, 0);
+    const topWall = this.scene.add.rectangle(0, 60, 1280, 10, 0x000000).setOrigin(0, 0).setAlpha(0);
+    const bottomWall = this.scene.add.rectangle(0, 660, 1280, 10, 0x000000).setOrigin(0, 0).setAlpha(0);
+    const leftWall = this.scene.add.rectangle(60, 0, 10, 720, 0x000000).setOrigin(0, 0).setAlpha(0);
+    const rightWall = this.scene.add.rectangle(1210, 0, 10, 720, 0x000000).setOrigin(0, 0).setAlpha(0);
     this.walls.add(topWall);
     this.walls.add(leftWall);
     this.walls.add(rightWall);
