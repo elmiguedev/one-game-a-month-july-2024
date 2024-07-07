@@ -4,6 +4,8 @@ export const WINDOW_HP = 100;
 export const WINDOW_REPAIR_VALUE = 20;
 export const VICTIM_MAX_INSANITY = 20;
 export const VICTIM_SANE_VALUE = 2;
+export const MENU_FADE_TIME = 500;
+
 export const LEVELS = [
   {
     windows: [

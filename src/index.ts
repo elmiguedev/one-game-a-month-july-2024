@@ -13,7 +13,7 @@ export default new Game({
   physics: {
     default: "arcade",
     arcade: {
-      debug: true
+      debug: false
     }
   },
   backgroundColor: "#70b5ee",

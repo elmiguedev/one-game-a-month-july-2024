@@ -2,14 +2,14 @@ import { Scene } from "phaser";
 import { House } from "../entities/house/House";
 import { Victim } from "../entities/victim/Victim";
 import { Window } from "../entities/window/Window";
-import { LEVELS, VICTIM_VELOCITY, VICTIMS_COUNT } from "../constants";
-import { Wind } from "../entities/wind/Wind";
+import { LEVELS, MENU_FADE_TIME, VICTIM_VELOCITY, VICTIMS_COUNT } from "../constants";
+import { HouseStorm } from "../entities/wind/HouseStorm";
 
 export class GameScene extends Scene {
   private house: House;
   private victims: Phaser.Physics.Arcade.Group;
   private windows: Phaser.Physics.Arcade.Group;
-  private storm: Phaser.Physics.Arcade.Group;
+  private houseStorm: HouseStorm;
 
   private selectedVictim: Victim;
 
@@ -25,14 +25,9 @@ export class GameScene extends Scene {
     this.createWindows();
     this.createStorm();
     this.createApocalypsis();
-
     this.createCollisions();
-
-    this.input.on('pointerdown', (e: any, g: any) => {
-      if (this.selectedVictim && g.length === 0) {
-        this.selectedVictim.move(e.worldX, e.worldY);
-      }
-    })
+    this.createInput();
+    this.fadeInEntities();
   }
 
   private createHouse() {
@@ -49,6 +44,7 @@ export class GameScene extends Scene {
       const x = Phaser.Math.Between(200, 1000);
       const y = Phaser.Math.Between(200, 500);
       const victim = this.victims.get(x, y) as Victim;
+      victim.setAlpha(0);
       victim.onClick = () => {
         if (this.selectedVictim && !this.selectedVictim.isInsane && victim.isInsane) {
           const distance = Phaser.Math.Distance.Between(this.selectedVictim.x, this.selectedVictim.y, victim.x, victim.y);
@@ -86,6 +82,7 @@ export class GameScene extends Scene {
         position.x,
         position.y
       ) as Window;
+      window.setAlpha(0)
       window.onClick = () => {
         if (this.selectedVictim) {
           const distance = Phaser.Math.Distance.Between(this.selectedVictim.x, this.selectedVictim.y, window.x, window.y);
@@ -100,16 +97,7 @@ export class GameScene extends Scene {
   }
 
   private createStorm() {
-    this.storm = this.physics.add.group({
-      classType: Wind,
-    });
-
-    for (let i = 0; i < 14; i++) {
-      this.storm.get(100 * i, 20)
-      this.storm.get(100 * i, 700)
-      this.storm.get(20, 100 * i)
-      this.storm.get(1270, 100 * i)
-    }
+    this.houseStorm = new HouseStorm(this);
   }
 
   private createApocalypsis() {
@@ -133,6 +121,15 @@ export class GameScene extends Scene {
     })
   }
 
+  private createInput() {
+    this.input.on('pointerdown', (e: any, g: any) => {
+
+      if (this.selectedVictim && g.length === 0) {
+        this.selectedVictim.move(e.worldX, e.worldY);
+      }
+    })
+  }
+
   private createCollisions() {
     this.physics.add.collider(this.victims, this.house.walls, (v1: Victim, w: any) => {
       v1.setVelocity(0)
@@ -150,5 +147,14 @@ export class GameScene extends Scene {
       }
     });
     // this.physics.add.collider(this.house, this.windows);
+  }
+
+  private fadeInEntities() {
+    console.log("fade")
+    this.add.tween({
+      targets: [...this.windows.getChildren(), ...this.victims.getChildren()],
+      alpha: 1,
+      duration: MENU_FADE_TIME
+    })
   }
 }
