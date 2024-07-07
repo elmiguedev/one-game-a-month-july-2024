@@ -45,9 +45,11 @@ export class Victim extends Phaser.Physics.Arcade.Sprite {
     if (!this.isRepairing) {
       this.setVelocity(0);
       this.isRepairing = true;
+      this.checkInsanity();
       this.scene.time.delayedCall(3000, () => {
         window.repair()
         this.isRepairing = false;
+        this.checkInsanity();
       })
     }
   }
@@ -56,9 +58,11 @@ export class Victim extends Phaser.Physics.Arcade.Sprite {
     if (!this.isTalking) {
       this.setVelocity(0);
       this.isTalking = true;
+      this.checkInsanity();
       this.scene.time.delayedCall(3000, () => {
         victim.sane()
         this.isTalking = false;
+        this.checkInsanity();
       })
     }
   }
@@ -90,7 +94,7 @@ export class Victim extends Phaser.Physics.Arcade.Sprite {
     if (this.isTalking) {
       this.anims.play({
         key: "talk",
-        repeat: 1
+        repeat: -1
       }, true);
       this.setVelocity(0);
       return;
@@ -98,7 +102,7 @@ export class Victim extends Phaser.Physics.Arcade.Sprite {
     if (this.isRepairing) {
       this.anims.play({
         key: "repair",
-        repeat: 1
+        repeat: -1
       }, true);
       this.setVelocity(0);
       return;
