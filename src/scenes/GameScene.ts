@@ -21,7 +21,7 @@ export class GameScene extends Scene {
 
   private createPlatforms() {
     const x = this.game.canvas.width / 2;
-    const y = this.game.canvas.height - 80;
+    const y = this.game.canvas.height - 40;
 
     this.platforms = this.physics.add.group({
       immovable: true,
@@ -54,4 +54,9 @@ export class GameScene extends Scene {
       this.player.jump();
     })
   }
+
+  private fadeOut() {
+    this.cameras.main.fade(500);
+  }
+
 }
