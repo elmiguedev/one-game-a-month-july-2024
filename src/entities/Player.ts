@@ -15,8 +15,9 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
   }
 
   public jump() {
-    console.log("Jump")
-    this.setVelocityY(-1200)
+    if (this.body.blocked.down) {
+      this.setVelocityY(-1200)
+    }
   }
 
 
