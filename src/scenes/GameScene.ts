@@ -1,10 +1,13 @@
 import { Scene } from "phaser";
 import { Player } from "../entities/Player";
+import { GameHud } from "../entities/GameHud";
 
 export class GameScene extends Scene {
   private platforms: Phaser.Physics.Arcade.Group
   private player: Player;
   private jumpKey: Phaser.Input.Keyboard.Key;
+  private hud: GameHud;
+  private timer: number = 0;
 
   constructor() {
     super({
@@ -17,6 +20,8 @@ export class GameScene extends Scene {
     this.createPlayer();
     this.createCollisions();
     this.createInput();
+    this.createHud();
+    this.createTimer();
   }
 
   private createPlatforms() {
@@ -32,7 +37,7 @@ export class GameScene extends Scene {
       x,
       y,
       this.game.canvas.width,
-      80,
+      12,
       0x16171a
     );
 
@@ -59,4 +64,19 @@ export class GameScene extends Scene {
     this.cameras.main.fade(500);
   }
 
+  private createHud() {
+    this.scene.run("GameHud");
+    this.hud = this.scene.get("GameHud") as GameHud;
+  }
+
+  private createTimer() {
+    this.time.addEvent({
+      delay: 1000,
+      callback: () => {
+        this.timer++;
+        this.hud.updateTimer(this.timer);
+      },
+      loop: true
+    })
+  }
 }

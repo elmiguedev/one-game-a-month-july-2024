@@ -4,6 +4,7 @@ import { GameScene } from "./scenes/GameScene";
 import { StartScene } from "./scenes/StartScene";
 import { GameOverScene } from "./scenes/GameOverScene";
 import { CreditsScene } from "./scenes/CreditsScene";
+import { GameHud } from "./entities/GameHud";
 
 export default new Game({
   type: Phaser.AUTO,
@@ -27,6 +28,7 @@ export default new Game({
   scene: [
     BootloaderScene,
     GameScene,
+    GameHud,
     StartScene,
     GameOverScene,
     CreditsScene,

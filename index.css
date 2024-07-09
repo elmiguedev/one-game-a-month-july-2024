@@ -1,3 +1,18 @@
+@font-face {
+  font-family: bit_by_bit;
+  font-weight: 400;
+  font-weight: normal;
+  src: url("./src/assets/fonts/bitbybit/bitbybit.ttf");
+}
+
+@font-face {
+  font-family: origami;
+  font-weight: 400;
+  font-weight: normal;
+  src: url("./src/assets/fonts/origami.ttf");
+}
+
+
 body {
   display: flex;
   justify-content: center;

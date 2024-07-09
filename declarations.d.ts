@@ -1,5 +1,7 @@
 import 'vite/client';
 
+declare module "*.fnt";
+declare module "*.xml";
 declare module "*.svg";
 declare module "*.scss";
 declare module "*.png";
