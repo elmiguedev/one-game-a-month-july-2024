@@ -1,0 +1,1 @@
+export const PLAYER_JUMP_VELOCITY = -1800

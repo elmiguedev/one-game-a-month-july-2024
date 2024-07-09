@@ -1,4 +1,5 @@
 import { Scene } from "phaser";
+import { PLAYER_JUMP_VELOCITY } from "../constants";
 
 export class Player extends Phaser.Physics.Arcade.Sprite {
   constructor(scene: Scene, x: number, y: number) {
@@ -16,7 +17,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 
   public jump() {
     if (this.body.blocked.down) {
-      this.setVelocityY(-1200)
+      this.setVelocityY(PLAYER_JUMP_VELOCITY)
     }
   }
 

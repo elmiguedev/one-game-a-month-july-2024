@@ -1,13 +1,16 @@
 import { Scene } from "phaser";
 import { Player } from "../entities/Player";
 import { GameHud } from "../entities/GameHud";
+import { Platform } from "../entities/Platform";
 
 export class GameScene extends Scene {
   private platforms: Phaser.Physics.Arcade.Group
+  private obstacles: Phaser.Physics.Arcade.Group
   private player: Player;
   private jumpKey: Phaser.Input.Keyboard.Key;
   private hud: GameHud;
   private timer: number = 0;
+  private levelVelocity = -500;
 
   constructor() {
     super({
@@ -16,13 +19,21 @@ export class GameScene extends Scene {
   }
 
   public create() {
+    this.initValues();
     this.createPlatforms();
     this.createPlayer();
-    this.createCollisions();
+    this.createObstacles();
     this.createInput();
     this.createHud();
     this.createTimer();
+    this.createCollisions();
   }
+
+  private initValues() {
+    this.timer = 0;
+    this.levelVelocity = -500;
+  }
+
 
   private createPlatforms() {
     const x = this.game.canvas.width / 2;
@@ -44,6 +55,42 @@ export class GameScene extends Scene {
     this.platforms.add(floor);
   }
 
+  private createLevelPlatforms() {
+    const x = this.game.canvas.width;
+    const baseY = this.game.canvas.height;
+    this.time.addEvent({
+      delay: 2000,
+      callback: () => {
+        const y = baseY - 240;
+        const p = new Platform(this, x, y);
+        this.platforms.add(p);
+        // @ts-ignore
+        p.body.setVelocityX(this.levelVelocity);
+      },
+      loop: true
+    })
+  }
+
+  private createObstacles() {
+    this.obstacles = this.physics.add.group({
+      allowGravity: false,
+      immovable: true
+    });
+    const x = this.game.canvas.width;
+    const baseY = this.game.canvas.height;
+    this.time.addEvent({
+      delay: 2000,
+      callback: () => {
+        const y = baseY - 140;
+        const p = new Platform(this, x, y);
+        this.obstacles.add(p);
+        // @ts-ignore
+        p.body.setVelocityX(this.levelVelocity);
+      },
+      loop: true
+    })
+  }
+
   private createPlayer() {
     const x = this.game.canvas.width / 2;
     this.player = new Player(this, x, 500);
@@ -51,6 +98,9 @@ export class GameScene extends Scene {
 
   private createCollisions() {
     this.physics.add.collider(this.player, this.platforms);
+    this.physics.add.collider(this.player, this.obstacles, () => {
+      this.gameOver();
+    })
   }
 
   private createInput() {
@@ -78,5 +128,9 @@ export class GameScene extends Scene {
       },
       loop: true
     })
+  }
+
+  private gameOver() {
+    this.scene.restart();
   }
 }
