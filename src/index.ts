@@ -13,10 +13,17 @@ export default new Game({
   physics: {
     default: "arcade",
     arcade: {
-      debug: false
+      debug: true,
+      gravity: {
+        y: 4000,
+        x: 0
+      }
     }
   },
-  backgroundColor: "#70b5ee",
+  render: {
+    pixelArt: true
+  },
+  backgroundColor: "#ffffff",
   scene: [
     BootloaderScene,
     GameScene,
