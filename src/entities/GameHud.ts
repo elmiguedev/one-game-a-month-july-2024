@@ -20,12 +20,17 @@ export class GameHud extends Scene {
   }
 
   private createTimerText() {
-    this.timerTxt = this.add.text(10, 10, "09:00", {
+    this.timerTxt = this.add.text(20, 20, "09:00", {
       color: "#000000",
       fontSize: "72px",
       fontFamily: "origami",
       fontStyle: "normal",
-    })
+      backgroundColor: "#ffffff",
+      padding: {
+        x: 8,
+        y: 10
+      }
+    }).setDepth(20)
   }
 
 
