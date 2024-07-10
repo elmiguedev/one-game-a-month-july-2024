@@ -14,7 +14,7 @@ export default new Game({
   physics: {
     default: "arcade",
     arcade: {
-      debug: true,
+      debug: false,
       gravity: {
         y: 4000,
         x: 0

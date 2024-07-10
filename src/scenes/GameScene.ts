@@ -2,6 +2,8 @@ import { Scene } from "phaser";
 import { Player } from "../entities/Player";
 import { GameHud } from "../entities/GameHud";
 import { Platform } from "../entities/Platform";
+import { Obstacle } from "../entities/obstacles/Obstacle";
+import { TestObstacle } from "../entities/obstacles/TestObstacle";
 
 export class GameScene extends Scene {
   private platforms: Phaser.Physics.Arcade.Group
@@ -10,7 +12,7 @@ export class GameScene extends Scene {
   private jumpKey: Phaser.Input.Keyboard.Key;
   private hud: GameHud;
   private timer: number = 0;
-  private levelVelocity = -500;
+  private levelVelocity = -1000;
 
   constructor() {
     super({
@@ -31,7 +33,7 @@ export class GameScene extends Scene {
 
   private initValues() {
     this.timer = 0;
-    this.levelVelocity = -500;
+    this.levelVelocity = -800;
   }
 
 
@@ -53,19 +55,13 @@ export class GameScene extends Scene {
     );
 
     this.platforms.add(floor);
-  }
 
-  private createLevelPlatforms() {
-    const x = this.game.canvas.width;
     const baseY = this.game.canvas.height;
     this.time.addEvent({
-      delay: 2000,
+      delay: 6000,
       callback: () => {
         const y = baseY - 240;
-        const p = new Platform(this, x, y);
-        this.platforms.add(p);
-        // @ts-ignore
-        p.body.setVelocityX(this.levelVelocity);
+        this.createPlatform(y);
       },
       loop: true
     })
@@ -76,16 +72,12 @@ export class GameScene extends Scene {
       allowGravity: false,
       immovable: true
     });
-    const x = this.game.canvas.width;
     const baseY = this.game.canvas.height;
+    const y = baseY - 140;
     this.time.addEvent({
       delay: 2000,
       callback: () => {
-        const y = baseY - 140;
-        const p = new Platform(this, x, y);
-        this.obstacles.add(p);
-        // @ts-ignore
-        p.body.setVelocityX(this.levelVelocity);
+        // this.createObstacle(y);
       },
       loop: true
     })
@@ -97,7 +89,11 @@ export class GameScene extends Scene {
   }
 
   private createCollisions() {
-    this.physics.add.collider(this.player, this.platforms);
+    this.physics.add.collider(this.player, this.platforms, () => {
+      if (this.player.body.blocked.right) {
+        this.gameOver();
+      }
+    });
     this.physics.add.collider(this.player, this.obstacles, () => {
       this.gameOver();
     })
@@ -128,6 +124,21 @@ export class GameScene extends Scene {
       },
       loop: true
     })
+  }
+
+  private createObstacle(y: number) {
+    const x = this.game.canvas.width;
+    const o = new TestObstacle(this, x, y);
+    this.obstacles.add(o);
+    o.setVelocityX(this.levelVelocity);
+  }
+
+  private createPlatform(y: number) {
+    const x = this.game.canvas.width;
+    const p = new Platform(this, x, y, 5);
+    this.platforms.add(p);
+    // @ts-ignore
+    p.body.setVelocityX(this.levelVelocity);
   }
 
   private gameOver() {
