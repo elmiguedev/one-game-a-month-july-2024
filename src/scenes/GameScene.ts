@@ -29,6 +29,7 @@ export class GameScene extends Scene {
     this.createHud();
     this.createTimer();
     this.createCollisions();
+    this.testMethod();
   }
 
   private initValues() {
@@ -144,4 +145,40 @@ export class GameScene extends Scene {
   private gameOver() {
     this.scene.restart();
   }
+
+
+  // TEST METHODS AND PROPS
+
+  private spotlight: Phaser.GameObjects.Arc;
+
+  private testMethod() {
+    const shadow = this.add.rectangle(
+      0,
+      0,
+      this.game.canvas.width,
+      this.game.canvas.height,
+      0x000000
+    ).setDepth(10).setOrigin(0, 0);
+
+    this.spotlight = this.add.circle(
+      this.player.x,
+      this.player.y,
+      600,
+      0x000000)
+      .setOrigin()
+      .setVisible(false);
+
+    const mask = this.spotlight.createGeometryMask();
+    mask.invertAlpha = true;
+    shadow.setMask(mask);
+
+    this.add.tween({
+      targets: [this.spotlight],
+      radius: 10,
+      duration: 10000
+    })
+  }
+
+
+
 }
