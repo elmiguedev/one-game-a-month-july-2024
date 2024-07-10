@@ -75,9 +75,9 @@ export class GameScene extends Scene {
     const baseY = this.game.canvas.height;
     const y = baseY - 140;
     this.time.addEvent({
-      delay: 2000,
+      delay: 4000,
       callback: () => {
-        // this.createObstacle(y);
+        this.createObstacle(y);
       },
       loop: true
     })
