@@ -3,7 +3,6 @@ import { Player } from "../entities/Player";
 import { GameHud } from "../entities/GameHud";
 import { Platform } from "../entities/Platform";
 import { Obstacle } from "../entities/obstacles/Obstacle";
-import { TestObstacle } from "../entities/obstacles/TestObstacle";
 import { CoffeeItem } from "../entities/items/CoffeeItems";
 import { COFFEE_LEVEL, INITIAL_COFFEE_LEVEL, INITIAL_LEVEL_VELOCITY, ITEMS_HEIGHT, SHADOW_VELOCITY, TIMER_DELAY } from "../constants";
 
@@ -17,6 +16,8 @@ export class GameScene extends Scene {
   private timer: number = 0;
   private levelVelocity = INITIAL_LEVEL_VELOCITY;
   private coffeeLevel = INITIAL_COFFEE_LEVEL;
+  private spotlight: Phaser.GameObjects.Arc;
+  private meetingMode: boolean = false;
 
   constructor() {
     super({
@@ -168,7 +169,7 @@ export class GameScene extends Scene {
       'chat',
       'octocat',
       'changuito'
-    ]
+    ];
     const x = this.game.canvas.width;
     const o = new Obstacle(
       this,
@@ -199,11 +200,6 @@ export class GameScene extends Scene {
   private gameOver() {
     this.scene.restart();
   }
-
-
-  // TEST METHODS AND PROPS
-
-  private spotlight: Phaser.GameObjects.Arc;
 
   private createShadow() {
     const shadow = this.add.rectangle(
@@ -238,6 +234,13 @@ export class GameScene extends Scene {
       loop: true
     })
 
+  }
+
+  private setMeetingMode() {
+    if (!this.meetingMode) {
+      this.meetingMode = true;
+
+    }
   }
 
 

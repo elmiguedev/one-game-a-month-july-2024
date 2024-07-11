@@ -41,5 +41,14 @@ Obstaculos en momento Call
 
 
 
+TODOS:
+=====
 
+- strategy para los enemigos y para el modo meeting
+- strategy para items (cafe y plataformas)
+- boss
+- agregar sonidos
+- agregar start scene
+- agregar animacion bootloader
+- agregar credits (?)
 
