@@ -5,6 +5,11 @@ import { Platform } from "../entities/Platform";
 import { Obstacle } from "../entities/obstacles/Obstacle";
 import { CoffeeItem } from "../entities/items/CoffeeItems";
 import { COFFEE_LEVEL, INITIAL_COFFEE_LEVEL, INITIAL_LEVEL_VELOCITY, ITEMS_HEIGHT, SHADOW_VELOCITY, TIMER_DELAY } from "../constants";
+import { TrailObstacles } from "../entities/obstacles/TrailObstacles";
+import { ZigZagObstacle } from "../entities/obstacles/ZigZagObstacle";
+import { AlternateTrailObstacles } from "../entities/obstacles/AlternateTrailObstacles";
+import { AlternateZigZagObstacles } from "../entities/obstacles/AlternateZigZagObstacle";
+import { NormalObstacle } from "../entities/obstacles/NormalObstacle";
 
 export class GameScene extends Scene {
   private platforms: Phaser.Physics.Arcade.Group
@@ -43,6 +48,7 @@ export class GameScene extends Scene {
     this.timer = 0;
     this.levelVelocity = INITIAL_LEVEL_VELOCITY;
     this.coffeeLevel = INITIAL_COFFEE_LEVEL;
+    this.meetingMode = false;
   }
 
 
@@ -171,15 +177,52 @@ export class GameScene extends Scene {
       'changuito'
     ];
     const x = this.game.canvas.width;
-    const o = new Obstacle(
-      this,
-      x,
-      ITEMS_HEIGHT[Phaser.Math.Between(0, 1)],
-      itemsTypes[Phaser.Math.Between(0, 5)]
-    );
 
-    this.obstacles.add(o);
-    o.setVelocityX(this.levelVelocity);
+    // PATRON: normal
+    const o = new NormalObstacle(
+      this,
+      this.obstacles,
+      "jira",
+      this.levelVelocity,
+      false
+    )
+
+    // this.obstacles.add(o);
+    // o.setVelocityX(this.levelVelocity);
+
+    // PATRON: zigzag
+    // const o = new ZigZagObstacle(
+    //   this,
+    //   this.obstacles,
+    //   "jira",
+    //   this.levelVelocity,
+    // )
+
+    // PATRON: triple changuito
+    // const o = new TrailObstacles(
+    //   this,
+    //   this.obstacles,
+    //   "changuito",
+    //   this.levelVelocity,
+    // )
+
+    // PATRON: alternate trail
+    // const o = new AlternateTrailObstacles(
+    //   this,
+    //   this.obstacles,
+    //   "slack",
+    //   this.levelVelocity,
+    // )
+
+    // PATRON: alternate zigzag trail
+    // const o = new AlternateZigZagObstacles(
+    //   this,
+    //   this.obstacles,
+    //   "slack",
+    //   this.levelVelocity,
+    // )
+
+    this.setMeetingMode();
   }
 
   private createPlatform(y: number) {
@@ -239,7 +282,13 @@ export class GameScene extends Scene {
   private setMeetingMode() {
     if (!this.meetingMode) {
       this.meetingMode = true;
-
+      this.hud.setMeetingMode("Planning");
+      this.cameras.main.setBackgroundColor(0x94baff);
+      this.time.delayedCall(5000, () => {
+        this.hud.endMeeting();
+        this.meetingMode = false;
+        this.cameras.main.setBackgroundColor(0xffffff);
+      })
     }
   }
 

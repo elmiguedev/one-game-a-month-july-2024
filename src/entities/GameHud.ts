@@ -4,6 +4,7 @@ export class GameHud extends Scene {
   private timerTxt: Phaser.GameObjects.Text;
   private calendarIcon: Phaser.GameObjects.Image;
   private meetingTxt: Phaser.GameObjects.Text;
+  private blinkTimer: Phaser.Time.TimerEvent;
 
   constructor() {
     super("GameHud");
@@ -26,9 +27,11 @@ export class GameHud extends Scene {
     this.calendarIcon.setVisible(true);
     this.meetingTxt.setVisible(true);
     this.meetingTxt.setText(meeting);
+    this.blinkTimer.paused = false;
   }
 
   public endMeeting() {
+    this.blinkTimer.paused = true;
     this.calendarIcon.setVisible(false);
     this.meetingTxt.setVisible(false);
   }
@@ -59,6 +62,15 @@ export class GameHud extends Scene {
       .setOrigin(1, 0)
       .setDepth(20)
       .setVisible(false);
+
+    this.blinkTimer = this.time.addEvent({
+      delay: 300,
+      callback: () => {
+        this.meetingTxt.setVisible(!this.meetingTxt.visible);
+      },
+      loop: true
+    });
+
   }
 
   private createTimerText() {

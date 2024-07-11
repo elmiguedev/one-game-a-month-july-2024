@@ -5,6 +5,7 @@ import { StartScene } from "./scenes/StartScene";
 import { GameOverScene } from "./scenes/GameOverScene";
 import { CreditsScene } from "./scenes/CreditsScene";
 import { GameHud } from "./entities/GameHud";
+import { LEVEL_GRAVITY } from "./constants";
 
 export default new Game({
   type: Phaser.AUTO,
@@ -16,7 +17,7 @@ export default new Game({
     arcade: {
       debug: false,
       gravity: {
-        y: 4000,
+        y: LEVEL_GRAVITY,
         x: 0
       }
     }
