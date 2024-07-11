@@ -5,7 +5,7 @@ import { Platform } from "../entities/Platform";
 import { Obstacle } from "../entities/obstacles/Obstacle";
 import { TestObstacle } from "../entities/obstacles/TestObstacle";
 import { CoffeeItem } from "../entities/items/CoffeeItems";
-import { COFFEE_LEVEL, INITIAL_COFFEE_LEVEL, INITIAL_LEVEL_VELOCITY, SHADOW_VELOCITY } from "../constants";
+import { COFFEE_LEVEL, INITIAL_COFFEE_LEVEL, INITIAL_LEVEL_VELOCITY, ITEMS_HEIGHT, SHADOW_VELOCITY, TIMER_DELAY } from "../constants";
 
 export class GameScene extends Scene {
   private platforms: Phaser.Physics.Arcade.Group
@@ -28,6 +28,7 @@ export class GameScene extends Scene {
     this.initValues();
     this.createPlatforms();
     this.createPlayer();
+    // this.createLevelPlatforms();
     // this.createObstacles();
     this.createItems();
     this.createInput();
@@ -63,6 +64,10 @@ export class GameScene extends Scene {
 
     this.platforms.add(floor);
 
+
+  }
+
+  private createLevelPlatforms() {
     const baseY = this.game.canvas.height;
     this.time.addEvent({
       delay: 6000,
@@ -95,8 +100,7 @@ export class GameScene extends Scene {
       allowGravity: false,
       immovable: true
     });
-    const baseY = this.game.canvas.height;
-    const y = baseY - 240;
+    const y = ITEMS_HEIGHT[0];
     this.time.addEvent({
       delay: 4000,
       callback: () => {
@@ -149,7 +153,7 @@ export class GameScene extends Scene {
 
   private createTimer() {
     this.time.addEvent({
-      delay: 300,
+      delay: TIMER_DELAY,
       callback: () => {
         this.timer++;
         this.hud.updateTimer(this.timer);
