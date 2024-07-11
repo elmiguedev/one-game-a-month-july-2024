@@ -29,7 +29,7 @@ export class GameScene extends Scene {
     this.createPlatforms();
     this.createPlayer();
     // this.createLevelPlatforms();
-    // this.createObstacles();
+    this.createObstacles();
     this.createItems();
     this.createInput();
     this.createTimer();
@@ -84,12 +84,10 @@ export class GameScene extends Scene {
       allowGravity: false,
       immovable: true
     });
-    const baseY = this.game.canvas.height;
-    const y = baseY - 140;
     this.time.addEvent({
-      delay: 4000,
+      delay: 3000,
       callback: () => {
-        this.createObstacle(y);
+        this.createObstacle();
       },
       loop: true
     })
@@ -102,7 +100,7 @@ export class GameScene extends Scene {
     });
     const y = ITEMS_HEIGHT[0];
     this.time.addEvent({
-      delay: 4000,
+      delay: 8000,
       callback: () => {
         this.createItem(y, 'coffee');
       },
@@ -162,9 +160,23 @@ export class GameScene extends Scene {
     })
   }
 
-  private createObstacle(y: number) {
+  private createObstacle() {
+    const itemsTypes = [
+      'aws',
+      'jira',
+      'slack',
+      'chat',
+      'octocat',
+      'changuito'
+    ]
     const x = this.game.canvas.width;
-    const o = new TestObstacle(this, x, y);
+    const o = new Obstacle(
+      this,
+      x,
+      ITEMS_HEIGHT[Phaser.Math.Between(0, 1)],
+      itemsTypes[Phaser.Math.Between(0, 5)]
+    );
+
     this.obstacles.add(o);
     o.setVelocityX(this.levelVelocity);
   }
