@@ -17,5 +17,5 @@ export type RAID_TYPES = "coffee" | "pizza";
 
 export const LEVEL_RAIDS: Record<string, RaidType[]> = {
   "09:10": ["normal"],
-  // "10:00": ["daily"]
+  "10:00": ["daily"]
 }

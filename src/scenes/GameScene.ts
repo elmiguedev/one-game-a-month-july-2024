@@ -150,7 +150,7 @@ export class GameScene extends Scene {
     const timerText = Utils.getTimeText(this.timer);
     const raids = LEVEL_RAIDS[timerText];
     if (raids) {
-      RaidFactory.createRaid(this, raids[0], this.obstacles, this.levelVelocity);
+      RaidFactory.createRaid(this, raids[0], this.obstacles, this.levelVelocity, this.hud);
     }
   }
 
@@ -198,19 +198,6 @@ export class GameScene extends Scene {
       loop: true
     })
 
-  }
-
-  private setMeetingMode() {
-    if (!this.meetingMode) {
-      this.meetingMode = true;
-      this.hud.setMeetingMode("Planning");
-      this.cameras.main.setBackgroundColor(0x94baff);
-      this.time.delayedCall(5000, () => {
-        this.hud.endMeeting();
-        this.meetingMode = false;
-        this.cameras.main.setBackgroundColor(0xffffff);
-      })
-    }
   }
 
 

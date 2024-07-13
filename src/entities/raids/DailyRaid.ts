@@ -1,15 +1,22 @@
 import { Scene } from "phaser";
 import { TrailObstacles } from "../obstacles/TrailObstacles";
 import { AlternateTrailObstacles } from "../obstacles/AlternateTrailObstacles";
+import { GameHud } from "../GameHud";
 
 /**
  * A raid sent on a daily metting 
  */
 
-const RAID_TIME = 3000;
+const RAID_TIME = 4000;
 
 export class DailyRaid {
-  constructor(scene: Scene, obstacles: Phaser.Physics.Arcade.Group, velocity: number) {
+  constructor(
+    private scene: Scene,
+    private obstacles: Phaser.Physics.Arcade.Group,
+    private velocity: number,
+    private gameHud: GameHud
+  ) {
+    this.setMeetingMode();
     console.log("crea daily raid")
     let i = 0;
     new TrailObstacles(scene, obstacles, "jira", velocity);
@@ -27,6 +34,15 @@ export class DailyRaid {
             break;
         }
       }
+    })
+  }
+
+  private setMeetingMode() {
+    this.gameHud.setMeetingMode("Daily");
+    this.scene.cameras.main.setBackgroundColor(0x94baff);
+    this.scene.time.delayedCall(12000, () => {
+      this.gameHud.endMeeting();
+      this.scene.cameras.main.setBackgroundColor(0xffffff);
     })
   }
 }
