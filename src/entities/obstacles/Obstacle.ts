@@ -16,7 +16,10 @@ export class Obstacle extends Phaser.Physics.Arcade.Sprite {
     this.setOrigin(0);
     this.setScale(10);
     this.anims.createFromAseprite(texture);
-    this.anims.play("idle");
+    this.anims.play({
+      key: "idle",
+      repeat: -1
+    }, true);
   }
 
   public static getRandomObstacleType(): ObstacleType {

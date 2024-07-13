@@ -13,9 +13,9 @@ export const ITEMS_HEIGHT = [
   240,
 ]
 
-export type RAID_TYPES = "coffee" | "pizza";
-
 export const LEVEL_RAIDS: Record<string, RaidType[]> = {
-  "09:10": ["normal"],
-  "10:00": ["daily"]
+  "09:10": ["work"],
+  // "09:10": ["normal"],
+  // "10:00": ["daily"],
+  // "11:30": ["work"],
 }

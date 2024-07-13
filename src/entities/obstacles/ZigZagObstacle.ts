@@ -20,6 +20,7 @@ export class ZigZagObstacle {
         to: y2
       },
       ease: 'Linear',
+      duration: 500,
       repeat: -1,
       yoyo: true
     });
