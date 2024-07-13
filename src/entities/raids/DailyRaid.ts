@@ -15,7 +15,7 @@ export class DailyRaid {
     new TrailObstacles(scene, obstacles, "jira", velocity);
     scene.time.addEvent({
       delay: RAID_TIME,
-      repeat: 2,
+      repeat: 1,
       callback: () => {
         switch (++i) {
           case 1:

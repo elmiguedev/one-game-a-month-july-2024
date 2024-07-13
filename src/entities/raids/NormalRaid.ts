@@ -15,7 +15,7 @@ export class NormalRaid {
     new NormalObstacle(scene, obstacles, Obstacle.getRandomObstacleType(), velocity);
     scene.time.addEvent({
       delay: RAID_TIME,
-      repeat: 2,
+      repeat: 1,
       callback: () => {
         new NormalObstacle(scene, obstacles, Obstacle.getRandomObstacleType(), velocity);
       }
