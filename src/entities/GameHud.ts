@@ -1,4 +1,5 @@
 import { Scene } from "phaser";
+import { Utils } from "../utlis/Utils";
 
 export class GameHud extends Scene {
   private timerTxt: Phaser.GameObjects.Text;
@@ -16,11 +17,8 @@ export class GameHud extends Scene {
   }
 
   public updateTimer(timer: number) {
-    const minutes = 9 + Math.floor(timer / 60);
-    const seconds = timer % 60;
-    const minutesStr = minutes < 10 ? "0" + minutes : minutes;
-    const secondsStr = seconds < 10 ? "0" + seconds : seconds;
-    this.timerTxt.setText(minutesStr + ":" + secondsStr);
+    const timerText = Utils.getTimeText(timer);
+    this.timerTxt.setText(timerText);
   }
 
   public setMeetingMode(meeting: string) {

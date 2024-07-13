@@ -2,14 +2,12 @@ import { Scene } from "phaser";
 import { Player } from "../entities/Player";
 import { GameHud } from "../entities/GameHud";
 import { Platform } from "../entities/Platform";
-import { Obstacle } from "../entities/obstacles/Obstacle";
 import { CoffeeItem } from "../entities/items/CoffeeItems";
-import { COFFEE_LEVEL, INITIAL_COFFEE_LEVEL, INITIAL_LEVEL_VELOCITY, ITEMS_HEIGHT, SHADOW_VELOCITY, TIMER_DELAY } from "../constants";
-import { TrailObstacles } from "../entities/obstacles/TrailObstacles";
-import { ZigZagObstacle } from "../entities/obstacles/ZigZagObstacle";
-import { AlternateTrailObstacles } from "../entities/obstacles/AlternateTrailObstacles";
-import { AlternateZigZagObstacles } from "../entities/obstacles/AlternateZigZagObstacle";
+import { COFFEE_LEVEL, INITIAL_COFFEE_LEVEL, INITIAL_LEVEL_VELOCITY, ITEMS_HEIGHT, LEVEL_RAIDS, SHADOW_VELOCITY, TIMER_DELAY } from "../constants";
 import { NormalObstacle } from "../entities/obstacles/NormalObstacle";
+import { Utils } from "../utlis/Utils";
+import { NormalRaid } from "../entities/raids/NormalRaid";
+import { RaidFactory } from "../entities/raids/RaidFactory";
 
 export class GameScene extends Scene {
   private platforms: Phaser.Physics.Arcade.Group
@@ -34,7 +32,6 @@ export class GameScene extends Scene {
     this.initValues();
     this.createPlatforms();
     this.createPlayer();
-    // this.createLevelPlatforms();
     this.createObstacles();
     this.createItems();
     this.createInput();
@@ -74,30 +71,11 @@ export class GameScene extends Scene {
 
   }
 
-  private createLevelPlatforms() {
-    const baseY = this.game.canvas.height;
-    this.time.addEvent({
-      delay: 6000,
-      callback: () => {
-        const y = baseY - 340;
-        this.createPlatform(y);
-      },
-      loop: true
-    })
-  }
-
   private createObstacles() {
     this.obstacles = this.physics.add.group({
       allowGravity: false,
       immovable: true
     });
-    this.time.addEvent({
-      delay: 3000,
-      callback: () => {
-        this.createObstacle();
-      },
-      loop: true
-    })
   }
 
   private createItems() {
@@ -162,9 +140,18 @@ export class GameScene extends Scene {
       callback: () => {
         this.timer++;
         this.hud.updateTimer(this.timer);
+        this.checkRaid();
       },
       loop: true
     })
+  }
+
+  private checkRaid() {
+    const timerText = Utils.getTimeText(this.timer);
+    const raids = LEVEL_RAIDS[timerText];
+    if (raids) {
+      RaidFactory.createRaid(this, raids[0], this.obstacles, this.levelVelocity);
+    }
   }
 
   private createObstacle() {

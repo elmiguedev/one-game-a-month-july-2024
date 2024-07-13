@@ -1,3 +1,10 @@
+export type ObstacleType = "aws" |
+  "chat" |
+  "slack" |
+  "jira" |
+  "changuito" |
+  "octocat";
+
 export class Obstacle extends Phaser.Physics.Arcade.Sprite {
   public obstacleType: string;
   constructor(scene: Phaser.Scene, x: number, y: number, texture: string) {
@@ -11,4 +18,23 @@ export class Obstacle extends Phaser.Physics.Arcade.Sprite {
     this.anims.createFromAseprite(texture);
     this.anims.play("idle");
   }
+
+  public static getRandomObstacleType(): ObstacleType {
+    const random = Math.floor(Math.random() * 6);
+    switch (random) {
+      case 0:
+        return "aws";
+      case 1:
+        return "chat";
+      case 2:
+        return "slack";
+      case 3:
+        return "jira";
+      case 4:
+        return "changuito";
+      case 5:
+        return "octocat";
+    }
+  }
+
 }
