@@ -20,6 +20,9 @@ import OctocatPng from "../assets/sprites/obtacles/octocat/octocat.png";
 import OctocatJson from "../assets/sprites/obtacles/octocat/octocat.json";
 import SlackPng from "../assets/sprites/obtacles/slack/slack.png";
 import SlackJson from "../assets/sprites/obtacles/slack/slack.json";
+import JumpMp3 from "../assets/sounds/jump.mp3";
+import CoffeeMp3 from "../assets/sounds/coffee.mp3";
+import GameMp3 from "../assets/sounds/game.mp3";
 
 export class BootloaderScene extends Scene {
   constructor() {
@@ -42,6 +45,10 @@ export class BootloaderScene extends Scene {
     this.load.aseprite("jira", JiraPng, JiraJson);
     this.load.aseprite("octocat", OctocatPng, OctocatJson);
     this.load.aseprite("slack", SlackPng, SlackJson);
+
+    this.load.audio("jump", JumpMp3);
+    this.load.audio("coffee", CoffeeMp3);
+    this.load.audio("game", GameMp3);
 
     this.load.once('complete', () => {
       // this.scene.start('StartScene');

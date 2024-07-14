@@ -16,7 +16,7 @@ export const ITEMS_HEIGHT = [
 ]
 
 export const LEVEL_RAIDS: Record<string, RaidType[]> = {
-  "09:10": ["boss"],
+  "09:10": ["coffee"],
 
   // "09:10": ["normal"],
   // // "10:00": ["daily"],

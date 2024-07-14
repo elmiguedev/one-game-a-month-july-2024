@@ -5,6 +5,7 @@ import { CoffeeItem } from "../entities/items/CoffeeItem";
 import { COFFEE_LEVEL, INITIAL_COFFEE_LEVEL, INITIAL_LEVEL_VELOCITY, ITEMS_HEIGHT, LEVEL_RAIDS, LEVEL_VELOCITIES, SHADOW_VELOCITY, TIMER_DELAY } from "../constants";
 import { Utils } from "../utlis/Utils";
 import { RaidFactory } from "../entities/raids/RaidFactory";
+import { SoundManager } from "../utlis/SoundManager";
 
 export class GameScene extends Scene {
   private platforms: Phaser.Physics.Arcade.Group
@@ -29,11 +30,20 @@ export class GameScene extends Scene {
     this.createPlatforms();
     this.createPlayer();
     this.createObstacles();
+    this.createItems();
     this.createInput();
     this.createTimer();
     this.createCollisions();
     this.createShadow();
     this.createHud();
+    this.createMusic();
+  }
+
+  private createItems() {
+    this.items = this.physics.add.group({
+      allowGravity: false,
+      immovable: true
+    });
   }
 
   private initValues() {
@@ -86,7 +96,7 @@ export class GameScene extends Scene {
     });
     this.physics.add.overlap(this.player, this.items, (p, i) => {
       if (i instanceof CoffeeItem) {
-        // this.coffeeLevel += COFFEE_LEVEL;
+        SoundManager.getInstance(this).playCoffee();
         this.time.addEvent({
           repeat: COFFEE_LEVEL,
           delay: 1,
@@ -179,6 +189,9 @@ export class GameScene extends Scene {
 
   }
 
+  private createMusic() {
+    SoundManager.getInstance(this).playGameLoop();
+  }
 
 
 }

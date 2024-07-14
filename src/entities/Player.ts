@@ -1,5 +1,6 @@
 import { Scene } from "phaser";
 import { PLAYER_JUMP_VELOCITY } from "../constants";
+import { SoundManager } from "../utlis/SoundManager";
 
 export class Player extends Phaser.Physics.Arcade.Sprite {
   constructor(scene: Scene, x: number, y: number) {
@@ -17,6 +18,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 
   public jump() {
     if (this.body.blocked.down) {
+      SoundManager.getInstance(this.scene).playJump();
       this.setVelocityY(PLAYER_JUMP_VELOCITY)
     }
   }
