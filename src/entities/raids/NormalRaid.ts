@@ -11,7 +11,6 @@ const RAID_TIME = 3000;
 
 export class NormalRaid {
   constructor(scene: Scene, obstacles: Phaser.Physics.Arcade.Group, velocity: number) {
-    console.log("crea el normal raid")
     new NormalObstacle(scene, obstacles, Obstacle.getRandomObstacleType(), velocity);
     scene.time.addEvent({
       delay: RAID_TIME,

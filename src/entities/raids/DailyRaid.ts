@@ -17,7 +17,6 @@ export class DailyRaid {
     private gameHud: GameHud
   ) {
     this.setMeetingMode();
-    console.log("crea daily raid")
     let i = 0;
     new TrailObstacles(scene, obstacles, "jira", velocity);
     scene.time.addEvent({

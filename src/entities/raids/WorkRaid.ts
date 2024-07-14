@@ -12,7 +12,6 @@ const RAID_TIME = 4000;
 
 export class WorkRaid {
   constructor(scene: Scene, obstacles: Phaser.Physics.Arcade.Group, velocity: number) {
-    console.log("work raid")
     new AlternateTrailObstacles(scene, obstacles, 'slack', velocity);
     scene.time.addEvent({
       delay: RAID_TIME,

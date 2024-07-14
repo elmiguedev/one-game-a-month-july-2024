@@ -14,7 +14,6 @@ const RAID_TIME = 1000;
 
 export class PlatformRaid {
   constructor(scene: Scene, obstacles: Phaser.Physics.Arcade.Group, velocity: number, platforms: Phaser.Physics.Arcade.Group, items: Phaser.Physics.Arcade.Group) {
-    console.log("platform raid")
     const platform = new NormalPlatform(scene, platforms, velocity);
     scene.time.delayedCall(RAID_TIME, () => {
       const p = new HighPlatform(scene, platforms, velocity);
