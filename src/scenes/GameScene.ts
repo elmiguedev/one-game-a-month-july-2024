@@ -190,6 +190,7 @@ export class GameScene extends Scene {
   }
 
   private createMusic() {
+    this.sound.stopAll();
     SoundManager.getInstance(this).playGameLoop();
   }
 
