@@ -4,10 +4,11 @@ import { DailyRaid } from "./DailyRaid";
 import { HighOnlyCoffeeRaid } from "./HighOnlyCoffeeRaid";
 import { NormalRaid } from "./NormalRaid";
 import { OnlyCoffeeRaid } from "./OnlyCoffeeRaid";
+import { PlanningRaid } from "./PlanningRaid";
 import { PlatformRaid } from "./PlatformRaid";
 import { WorkRaid } from "./WorkRaid";
 
-export type RaidType = "normal" | "daily" | "work" | "platform" | "boss" | "coffee" | "high-coffee";
+export type RaidType = "normal" | "daily" | "work" | "platform" | "boss" | "coffee" | "high-coffee" | "planning";
 
 export class RaidFactory {
   static createRaid(
@@ -25,6 +26,9 @@ export class RaidFactory {
         break;
       case "daily":
         new DailyRaid(scene, obstacles, velocity, gameHud);
+        break;
+      case "planning":
+        new PlanningRaid(scene, obstacles, velocity, gameHud);
         break;
       case "work":
         new WorkRaid(scene, obstacles, velocity);
