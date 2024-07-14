@@ -29,7 +29,6 @@ export class GameScene extends Scene {
     this.createPlatforms();
     this.createPlayer();
     this.createObstacles();
-    this.createItems();
     this.createInput();
     this.createTimer();
     this.createCollisions();
@@ -62,8 +61,6 @@ export class GameScene extends Scene {
     );
 
     this.platforms.add(floor);
-
-
   }
 
   private createObstacles() {
@@ -71,21 +68,6 @@ export class GameScene extends Scene {
       allowGravity: false,
       immovable: true
     });
-  }
-
-  private createItems() {
-    this.items = this.physics.add.group({
-      allowGravity: false,
-      immovable: true
-    });
-    const y = ITEMS_HEIGHT[0];
-    this.time.addEvent({
-      delay: 8000,
-      callback: () => {
-        this.createItem(y, 'coffee');
-      },
-      loop: true
-    })
   }
 
   private createPlayer() {
@@ -147,13 +129,6 @@ export class GameScene extends Scene {
     if (raids) {
       RaidFactory.createRaid(this, raids[0], this.obstacles, this.levelVelocity, this.hud, this.platforms, this.items);
     }
-  }
-
-  private createItem(y: number, type: string) {
-    // const x = this.game.canvas.width;
-    // const o = new CoffeeItem(this, x, y);
-    // this.items.add(o);
-    // o.setVelocityX(this.levelVelocity);
   }
 
   private gameOver() {
