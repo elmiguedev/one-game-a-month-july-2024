@@ -1,10 +1,11 @@
 import { GameHud } from "../GameHud";
+import { BossRaid } from "./BossRaid";
 import { DailyRaid } from "./DailyRaid";
 import { NormalRaid } from "./NormalRaid";
 import { PlatformRaid } from "./PlatformRaid";
 import { WorkRaid } from "./WorkRaid";
 
-export type RaidType = "normal" | "daily" | "work" | "platform";
+export type RaidType = "normal" | "daily" | "work" | "platform" | "boss";
 
 export class RaidFactory {
   static createRaid(
@@ -28,6 +29,9 @@ export class RaidFactory {
         break;
       case "platform":
         new PlatformRaid(scene, obstacles, velocity, platforms, items);
+        break;
+      case "boss":
+        new BossRaid(scene, obstacles, velocity);
         break;
       default:
         break;
