@@ -1,12 +1,9 @@
 import { Scene } from "phaser";
 import { Player } from "../entities/Player";
 import { GameHud } from "../entities/GameHud";
-import { Platform } from "../entities/Platform";
-import { CoffeeItem } from "../entities/items/CoffeeItems";
+import { CoffeeItem } from "../entities/items/CoffeeItem";
 import { COFFEE_LEVEL, INITIAL_COFFEE_LEVEL, INITIAL_LEVEL_VELOCITY, ITEMS_HEIGHT, LEVEL_RAIDS, SHADOW_VELOCITY, TIMER_DELAY } from "../constants";
-import { NormalObstacle } from "../entities/obstacles/NormalObstacle";
 import { Utils } from "../utlis/Utils";
-import { NormalRaid } from "../entities/raids/NormalRaid";
 import { RaidFactory } from "../entities/raids/RaidFactory";
 
 export class GameScene extends Scene {
@@ -20,7 +17,6 @@ export class GameScene extends Scene {
   private levelVelocity = INITIAL_LEVEL_VELOCITY;
   private coffeeLevel = INITIAL_COFFEE_LEVEL;
   private spotlight: Phaser.GameObjects.Arc;
-  private meetingMode: boolean = false;
 
   constructor() {
     super({
@@ -45,7 +41,6 @@ export class GameScene extends Scene {
     this.timer = 0;
     this.levelVelocity = INITIAL_LEVEL_VELOCITY;
     this.coffeeLevel = INITIAL_COFFEE_LEVEL;
-    this.meetingMode = false;
   }
 
 
@@ -150,15 +145,15 @@ export class GameScene extends Scene {
     const timerText = Utils.getTimeText(this.timer);
     const raids = LEVEL_RAIDS[timerText];
     if (raids) {
-      RaidFactory.createRaid(this, raids[0], this.obstacles, this.levelVelocity, this.hud);
+      RaidFactory.createRaid(this, raids[0], this.obstacles, this.levelVelocity, this.hud, this.platforms, this.items);
     }
   }
 
   private createItem(y: number, type: string) {
-    const x = this.game.canvas.width;
-    const o = new CoffeeItem(this, x, y);
-    this.items.add(o);
-    o.setVelocityX(this.levelVelocity);
+    // const x = this.game.canvas.width;
+    // const o = new CoffeeItem(this, x, y);
+    // this.items.add(o);
+    // o.setVelocityX(this.levelVelocity);
   }
 
   private gameOver() {

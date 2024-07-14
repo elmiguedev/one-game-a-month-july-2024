@@ -7,6 +7,8 @@ export class Item extends Phaser.Physics.Arcade.Sprite {
     // @ts-ignore
     this.setOrigin(0);
     this.setScale(10);
+    // @ts-ignore
+    this.body.allowGravity = false;
     this.anims.createFromAseprite(texture);
     this.anims.play("idle");
   }

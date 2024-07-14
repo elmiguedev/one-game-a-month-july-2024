@@ -7,6 +7,8 @@ export const INITIAL_COFFEE_LEVEL = 1800;
 export const INITIAL_LEVEL_VELOCITY = -1000;
 export const COFFEE_LEVEL = 300;
 export const TIMER_DELAY = 200;
+export const PLATFORM_NORMAL_HEIGHT = 400;
+export const PLATFORM_HIGH_HEIGHT = 200;
 
 export const ITEMS_HEIGHT = [
   520,
@@ -14,8 +16,10 @@ export const ITEMS_HEIGHT = [
 ]
 
 export const LEVEL_RAIDS: Record<string, RaidType[]> = {
-  "09:10": ["work"],
-  // "09:10": ["normal"],
-  // "10:00": ["daily"],
-  // "11:30": ["work"],
+  // "09:10": ["platform"],
+  "09:10": ["normal"],
+  "10:00": ["daily"],
+  "11:30": ["work"],
+  "12:30": ["platform"],
+  "15:00": ["daily"]
 }

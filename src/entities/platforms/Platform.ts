@@ -5,8 +5,6 @@ const HEIGHT: number = 80;
 const COLOR: number = 0x000000;
 
 export class Platform extends Phaser.GameObjects.Rectangle {
-
-
   constructor(scene: Scene, x: number, y: number, width: number = 1) {
     super(scene, x, y, WIDTH * width, HEIGHT, COLOR);
     this.scene.add.existing(this);
