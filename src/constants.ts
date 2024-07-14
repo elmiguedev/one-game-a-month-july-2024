@@ -37,8 +37,6 @@ export const LEVEL_RAIDS: Record<string, RaidType[]> = {
   "15:45": ["work"],
   "16:20": ["high-coffee"],
   "16:30": ["platform"],
-  // "11:30": ["work"],
-  // "12:30": ["platform"],
   "17:00": ["boss"]
 }
 
