@@ -24,6 +24,10 @@ export class SoundManager {
     this.play("coffee");
   }
 
+  playHit() {
+    this.play("hit");
+  }
+
   playGameLoop() {
     this.scene.sound.play("game", {
       loop: true,

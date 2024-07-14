@@ -18,6 +18,7 @@ export class GameScene extends Scene {
   private levelVelocity = INITIAL_LEVEL_VELOCITY;
   private coffeeLevel = INITIAL_COFFEE_LEVEL;
   private spotlight: Phaser.GameObjects.Arc;
+  private gameTimer: Phaser.Time.TimerEvent;
 
   constructor() {
     super({
@@ -122,7 +123,7 @@ export class GameScene extends Scene {
   }
 
   private createTimer() {
-    this.time.addEvent({
+    this.gameTimer = this.time.addEvent({
       delay: TIMER_DELAY,
       callback: () => {
         this.timer++;
@@ -151,7 +152,13 @@ export class GameScene extends Scene {
   }
 
   private gameOver() {
-    this.scene.restart();
+    this.sound.stopAll();
+    SoundManager.getInstance(this).playHit();
+    this.gameTimer.destroy();
+    this.physics.pause();
+    this.time.delayedCall(2000, () => {
+      this.scene.restart();
+    })
   }
 
   private createShadow() {
