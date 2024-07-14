@@ -2,7 +2,7 @@ import { Scene } from "phaser";
 import { Player } from "../entities/Player";
 import { GameHud } from "../entities/GameHud";
 import { CoffeeItem } from "../entities/items/CoffeeItem";
-import { COFFEE_LEVEL, INITIAL_COFFEE_LEVEL, INITIAL_LEVEL_VELOCITY, ITEMS_HEIGHT, LEVEL_RAIDS, SHADOW_VELOCITY, TIMER_DELAY } from "../constants";
+import { COFFEE_LEVEL, INITIAL_COFFEE_LEVEL, INITIAL_LEVEL_VELOCITY, ITEMS_HEIGHT, LEVEL_RAIDS, LEVEL_VELOCITIES, SHADOW_VELOCITY, TIMER_DELAY } from "../constants";
 import { Utils } from "../utlis/Utils";
 import { RaidFactory } from "../entities/raids/RaidFactory";
 
@@ -118,6 +118,7 @@ export class GameScene extends Scene {
         this.timer++;
         this.hud.updateTimer(this.timer);
         this.checkRaid();
+        this.checkVelocity();
       },
       loop: true
     })
@@ -128,6 +129,14 @@ export class GameScene extends Scene {
     const raids = LEVEL_RAIDS[timerText];
     if (raids) {
       RaidFactory.createRaid(this, raids[0], this.obstacles, this.levelVelocity, this.hud, this.platforms, this.items);
+    }
+  }
+
+  private checkVelocity() {
+    const timerText = Utils.getTimeText(this.timer);
+    const velocity = LEVEL_VELOCITIES[timerText];
+    if (velocity) {
+      this.levelVelocity = velocity;
     }
   }
 

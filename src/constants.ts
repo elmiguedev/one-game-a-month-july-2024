@@ -16,10 +16,16 @@ export const ITEMS_HEIGHT = [
 ]
 
 export const LEVEL_RAIDS: Record<string, RaidType[]> = {
-  // "09:10": ["platform"],
   "09:10": ["normal"],
   "10:00": ["daily"],
   "11:30": ["work"],
   "12:30": ["platform"],
   "15:00": ["daily"]
+}
+
+export const LEVEL_VELOCITIES: Record<string, number> = {
+  "09:30": -1100,
+  "12:30": -1200,
+  "15:30": -1300,
+  "17:30": -1400
 }
