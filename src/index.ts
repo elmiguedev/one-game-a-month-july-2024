@@ -25,7 +25,7 @@ export default new Game({
   render: {
     pixelArt: true
   },
-  backgroundColor: "#ffffff",
+  backgroundColor: "#000000",
   scene: [
     BootloaderScene,
     GameScene,

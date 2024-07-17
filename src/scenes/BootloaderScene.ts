@@ -24,8 +24,11 @@ import JumpMp3 from "../assets/sounds/jump.ogg";
 import CoffeeMp3 from "../assets/sounds/coffee.ogg";
 import GameMp3 from "../assets/sounds/game.ogg";
 import HitMp3 from "../assets/sounds/hit.ogg";
+import { Loader } from "../entities/loader/Loader";
 
 export class BootloaderScene extends Scene {
+  private loader: Loader;
+
   constructor() {
     super({
       key: 'BootloaderScene',
@@ -33,6 +36,9 @@ export class BootloaderScene extends Scene {
   }
 
   public preload() {
+    this.loader = new Loader(this);
+
+
     this.load.image('dot', DotPng);
 
     this.load.aseprite("player", PlayerPng, PlayerJson);
@@ -52,12 +58,29 @@ export class BootloaderScene extends Scene {
     this.load.audio("game", GameMp3);
     this.load.audio("hit", HitMp3);
 
+    this.load.on('progress', (value: number) => {
+      this.loader.update(value);
+    });
+
     this.load.once('complete', () => {
-      // this.scene.start('StartScene');
-      this.scene.start('GameScene');
+      this.startGame();
     });
   }
 
-  public create() {
+  public startGame() {
+    let alpha = 1;
+    this.time.addEvent({
+      delay: 10,
+      loop: true,
+      callback: () => {
+        alpha -= 0.01;
+        this.loader.setAlpha(alpha);
+        if (alpha <= 0) {
+          this.scene.start('StartScene');
+        }
+      }
+    })
   }
+
+
 }

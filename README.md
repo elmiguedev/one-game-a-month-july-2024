@@ -52,3 +52,8 @@ TODOS:
 - agregar animacion bootloader
 - agregar credits (?)
 
+
+- notas de mejora:
+- el zigzag del octocat podria tener uno menos
+- la velocidad despues de las platforms es alta
+- agregar un cafe mas despues delas platforms
