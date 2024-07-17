@@ -12,6 +12,13 @@
   src: url("./src/assets/fonts/origami.ttf");
 }
 
+@font-face {
+  font-family: bulkypix;
+  font-weight: 400;
+  font-weight: normal;
+  src: url("./src/assets/fonts/bulkypix.ttf");
+}
+
 
 body {
   display: flex;

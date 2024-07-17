@@ -2,6 +2,7 @@ import { Scene } from "phaser";
 import { SoundManager } from "../utlis/SoundManager";
 import { Player } from "../entities/Player";
 import { CoffeeItem } from "../entities/items/CoffeeItem";
+import { NormalObstacle } from "../entities/obstacles/NormalObstacle";
 
 export class StartScene extends Scene {
   private player: Player;
@@ -113,7 +114,7 @@ export class StartScene extends Scene {
       targets: [this.player, this.spotlight],
       x: x,
       duration: 2000,
-      ease: 'Linear',
+      ease: 'Linear'
     })
   }
 
@@ -129,6 +130,8 @@ export class StartScene extends Scene {
       SoundManager.getInstance(this).playCoffee();
       this.coffee.destroy();
       this.openSpotlight();
+      this.createInstructions();
+
     })
   }
 
@@ -138,14 +141,86 @@ export class StartScene extends Scene {
       radius: 1200,
       duration: 2000,
       ease: 'Linear',
-      onComplete: () => {
-        this.walkCenter();
-      }
     });
   }
 
   private createInstructions() {
-    const coffeText = "Drink coffee to avoid falling asleep at work"
+    const x = 100;
+    const y = 100;
+    const coffeText = "Drink coffee to avoid falling asleep at work";
+    const obstaclesText = "Dodge work to arrive safely until 18:00 hs";
+
+    const instructionImage = this.add.image(x, y, 'coffee').setScale(10);
+
+    const coffeInstructions = this.add.text(x + 120, y - 50, "", {
+      fontSize: '48px',
+      color: "black",
+      fontFamily: "bulkypix",
+    }).setWordWrapWidth(1100);
+
+    let i = 0;
+    let text = "";
+    this.time.addEvent({
+      delay: 50,
+      repeat: coffeText.length - 1,
+      callback: () => {
+        text = text + coffeText[i];
+        coffeInstructions.setText(text);
+        i++;
+      },
+
+    })
+
+    this.time.delayedCall(6500, () => {
+      this.player.jump();
+    })
+    this.time.delayedCall(6000, () => {
+      instructionImage.setTexture("slack");
+      i = 0;
+      text = ""
+      this.time.addEvent({
+        delay: 50,
+        repeat: obstaclesText.length - 1,
+        callback: () => {
+          text = text + obstaclesText[i];
+          coffeInstructions.setText(text);
+          i++;
+        },
+
+      })
+
+      const obstacleExample = this.add.image(1300, 600, 'slack').setScale(10);
+      this.add.tween({
+        targets: obstacleExample,
+        x: -100,
+        duration: 2000,
+        ease: 'Linear',
+        onComplete: () => {
+          obstacleExample.destroy();
+
+          this.time.delayedCall(1000, () => {
+            this.add.text(
+              this.game.canvas.width / 2,
+              this.game.canvas.height / 2, "press [SPACE] to start", {
+              fontSize: '48px',
+              color: "black",
+              fontFamily: "bulkypix",
+              align: "center"
+            }).setWordWrapWidth(1100).setOrigin(0.5);
+
+            const k = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
+            k.on('down', () => {
+              this.scene.start('GameScene');
+            })
+
+          })
+        }
+      })
+
+    })
+
+
   }
 
 }

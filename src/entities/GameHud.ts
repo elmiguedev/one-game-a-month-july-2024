@@ -44,6 +44,7 @@ export class GameHud extends Scene {
       .setDepth(20)
       .setOrigin(0)
       .setVisible(false);
+
     this.meetingTxt = this.add.text(1100, 20, "", {
       color: "#000000",
       fontSize: "72px",
@@ -68,6 +69,9 @@ export class GameHud extends Scene {
       },
       loop: true
     });
+
+    this.blinkTimer.paused = true;
+    this.meetingTxt.setVisible(false);
 
   }
 

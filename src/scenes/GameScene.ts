@@ -28,6 +28,7 @@ export class GameScene extends Scene {
 
   public create() {
     this.initValues();
+    this.createCamera();
     this.createPlatforms();
     this.createPlayer();
     this.createObstacles();
@@ -53,8 +54,12 @@ export class GameScene extends Scene {
     this.coffeeLevel = INITIAL_COFFEE_LEVEL;
   }
 
+  private createCamera() {
+    this.cameras.main.setBackgroundColor(0xffffff);
+  }
 
   private createPlatforms() {
+
     const x = this.game.canvas.width / 2;
     const y = this.game.canvas.height - 40;
 
@@ -83,7 +88,7 @@ export class GameScene extends Scene {
 
   private createPlayer() {
     const x = this.game.canvas.width / 2;
-    this.player = new Player(this, x, 500);
+    this.player = new Player(this, x, 594);
   }
 
   private createCollisions() {
