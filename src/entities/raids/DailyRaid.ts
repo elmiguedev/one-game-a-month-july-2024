@@ -14,11 +14,12 @@ export class DailyRaid {
     private scene: Scene,
     private obstacles: Phaser.Physics.Arcade.Group,
     private velocity: number,
-    private gameHud: GameHud
+    private gameHud: GameHud,
+    private items: Phaser.Physics.Arcade.Group
   ) {
     this.setMeetingMode();
     let i = 0;
-    new TrailObstacles(scene, obstacles, "jira", velocity);
+    new TrailObstacles(scene, obstacles, "jira", velocity, items);
     scene.time.addEvent({
       delay: RAID_TIME,
       repeat: 1,
@@ -28,7 +29,7 @@ export class DailyRaid {
             new AlternateTrailObstacles(scene, obstacles, "chat", velocity);
             break;
           case 2:
-            new TrailObstacles(scene, obstacles, "changuito", velocity);
+            new TrailObstacles(scene, obstacles, "changuito", velocity, items);
           default:
             break;
         }

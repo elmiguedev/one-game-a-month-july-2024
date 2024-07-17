@@ -25,10 +25,10 @@ export class RaidFactory {
         new NormalRaid(scene, obstacles, velocity);
         break;
       case "daily":
-        new DailyRaid(scene, obstacles, velocity, gameHud);
+        new DailyRaid(scene, obstacles, velocity, gameHud, items);
         break;
       case "planning":
-        new PlanningRaid(scene, obstacles, velocity, gameHud);
+        new PlanningRaid(scene, obstacles, velocity, gameHud, items);
         break;
       case "work":
         new WorkRaid(scene, obstacles, velocity);
@@ -37,7 +37,7 @@ export class RaidFactory {
         new PlatformRaid(scene, obstacles, velocity, platforms, items);
         break;
       case "boss":
-        new BossRaid(scene, obstacles, velocity);
+        new BossRaid(scene, obstacles, velocity, items);
         break;
       case "coffee":
         new OnlyCoffeeRaid(scene, items, velocity);

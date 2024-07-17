@@ -21,16 +21,8 @@ export class PlatformRaid {
       items.add(c);
       c.setVelocityX(velocity);
     })
-    scene.time.delayedCall(RAID_TIME * 2, () => {
-      if (Math.random() > 0.5) {
-        const o = new NormalObstacle(scene, obstacles, Obstacle.getRandomObstacleType(), velocity);
-      }
-    })
     scene.time.delayedCall(RAID_TIME * 3, () => {
       const p = new NormalPlatform(scene, platforms, velocity);
-      if (Math.random() > 0.5) {
-        const o = new PlatformObstacle(scene, obstacles, Obstacle.getRandomObstacleType(), velocity, p.platform);
-      }
     })
 
     scene.time.delayedCall(RAID_TIME * 4, () => {

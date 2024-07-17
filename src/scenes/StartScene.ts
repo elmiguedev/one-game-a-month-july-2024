@@ -93,19 +93,6 @@ export class StartScene extends Scene {
       }
     });
 
-
-    // this.time.addEvent({
-    //   delay: SHADOW_VELOCITY,
-    //   callback: () => {
-    //     this.coffeeLevel--;
-    //     this.spotlight.setRadius(this.coffeeLevel);
-    //     if (this.coffeeLevel <= 0) {
-    //       this.gameOver();
-    //     }
-    //   },
-    //   loop: true
-    // })
-
   }
 
   private walkCenter() {

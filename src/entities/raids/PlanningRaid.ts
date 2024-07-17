@@ -2,6 +2,7 @@ import { Scene } from "phaser";
 import { TrailObstacles } from "../obstacles/TrailObstacles";
 import { AlternateTrailObstacles } from "../obstacles/AlternateTrailObstacles";
 import { GameHud } from "../GameHud";
+import { CoffeeItem } from "../items/CoffeeItem";
 
 /**
  * A raid sent on a daily metting 
@@ -14,11 +15,12 @@ export class PlanningRaid {
     private scene: Scene,
     private obstacles: Phaser.Physics.Arcade.Group,
     private velocity: number,
-    private gameHud: GameHud
+    private gameHud: GameHud,
+    private items: Phaser.Physics.Arcade.Group
   ) {
     this.setMeetingMode();
     let i = 0;
-    new TrailObstacles(scene, obstacles, "jira", velocity);
+    new TrailObstacles(scene, obstacles, "jira", velocity, items);
     scene.time.addEvent({
       delay: RAID_TIME,
       repeat: 1,
@@ -28,7 +30,7 @@ export class PlanningRaid {
             new AlternateTrailObstacles(scene, obstacles, "chat", velocity);
             break;
           case 2:
-            new TrailObstacles(scene, obstacles, "changuito", velocity);
+            new TrailObstacles(scene, obstacles, "changuito", velocity, items);
           default:
             break;
         }

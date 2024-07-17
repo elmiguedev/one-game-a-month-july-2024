@@ -13,6 +13,7 @@ export class GameScene extends Scene {
   private items: Phaser.Physics.Arcade.Group
   private player: Player;
   private jumpKey: Phaser.Input.Keyboard.Key;
+  private upKey: Phaser.Input.Keyboard.Key;
   private hud: GameHud;
   private timer: number = 0;
   private levelVelocity = INITIAL_LEVEL_VELOCITY;
@@ -118,6 +119,10 @@ export class GameScene extends Scene {
   private createInput() {
     this.jumpKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     this.jumpKey.on('down', () => {
+      this.player.jump();
+    })
+    this.upKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
+    this.upKey.on('down', () => {
       this.player.jump();
     })
   }
