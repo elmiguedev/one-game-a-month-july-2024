@@ -8,8 +8,7 @@ import { CoffeeItem } from "../items/CoffeeItem";
 import { HighCoffee } from "../items/HighCoffee";
 
 export class BossRaid {
-
-  constructor(scene: Scene, obstacles: Phaser.Physics.Arcade.Group, velocity: number, items: Phaser.Physics.Arcade.Group) {
+  constructor(scene: Scene, obstacles: Phaser.Physics.Arcade.Group, velocity: number, items: Phaser.Physics.Arcade.Group, onBossDeath: () => void) {
     const x = scene.game.canvas.width - 240;
     const initialX = x + 500;
     const y = scene.game.canvas.height - 450;
@@ -51,6 +50,7 @@ export class BossRaid {
             ease: "Power1",
             onComplete: () => {
               boss.destroy();
+              onBossDeath();
             }
           })
         });

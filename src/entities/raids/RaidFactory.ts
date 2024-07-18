@@ -18,7 +18,8 @@ export class RaidFactory {
     velocity: number,
     gameHud: GameHud,
     platforms: Phaser.Physics.Arcade.Group,
-    items: Phaser.Physics.Arcade.Group
+    items: Phaser.Physics.Arcade.Group,
+    onBossDeath: () => void
   ) {
     switch (type) {
       case "normal":
@@ -37,7 +38,7 @@ export class RaidFactory {
         new PlatformRaid(scene, obstacles, velocity, platforms, items);
         break;
       case "boss":
-        new BossRaid(scene, obstacles, velocity, items);
+        new BossRaid(scene, obstacles, velocity, items, onBossDeath);
         break;
       case "coffee":
         new OnlyCoffeeRaid(scene, items, velocity);

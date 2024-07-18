@@ -23,5 +23,27 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     }
   }
 
+  public win() {
+    this.anims.play("win");
+  }
+
+  public smoke() {
+    this.anims.play({
+      key: "win_idle",
+      repeat: -1,
+      frameRate: 10
+    })
+  }
+
+  public winWalk() {
+    this.anims.play({
+      key: "win_walk",
+      repeat: -1,
+      frameRate: 10
+    });
+    this.setVelocityX(200);
+  }
+
+
 
 }

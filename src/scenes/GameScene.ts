@@ -20,6 +20,7 @@ export class GameScene extends Scene {
   private coffeeLevel = INITIAL_COFFEE_LEVEL;
   private spotlight: Phaser.GameObjects.Arc;
   private gameTimer: Phaser.Time.TimerEvent;
+  private coffeTimer: Phaser.Time.TimerEvent;
 
   constructor() {
     super({
@@ -149,7 +150,7 @@ export class GameScene extends Scene {
     const timerText = Utils.getTimeText(this.timer);
     const raids = LEVEL_RAIDS[timerText];
     if (raids) {
-      RaidFactory.createRaid(this, raids[0], this.obstacles, this.levelVelocity, this.hud, this.platforms, this.items);
+      RaidFactory.createRaid(this, raids[0], this.obstacles, this.levelVelocity, this.hud, this.platforms, this.items, this.win.bind(this));
     }
   }
 
@@ -164,6 +165,7 @@ export class GameScene extends Scene {
   private gameOver() {
     this.sound.stopAll();
     SoundManager.getInstance(this).playHit();
+    this.coffeTimer.destroy();
     this.gameTimer.destroy();
     this.physics.pause();
     this.time.delayedCall(2000, () => {
@@ -192,7 +194,7 @@ export class GameScene extends Scene {
     mask.invertAlpha = true;
     shadow.setMask(mask);
 
-    this.time.addEvent({
+    this.coffeTimer = this.time.addEvent({
       delay: SHADOW_VELOCITY,
       callback: () => {
         this.coffeeLevel--;
@@ -202,13 +204,58 @@ export class GameScene extends Scene {
         }
       },
       loop: true
-    })
+    });
 
   }
 
   private createMusic() {
     this.sound.stopAll();
     SoundManager.getInstance(this).playGameLoop();
+  }
+
+  private win() {
+    this.coffeeLevel = 2000;
+    this.gameTimer.destroy();
+    this.spotlight.setRadius(2000);
+    this.coffeTimer.destroy();
+    this.time.delayedCall(2000, () => {
+      this.player.win();
+      this.time.delayedCall(1000, () => {
+        this.player.smoke();
+        this.time.delayedCall(1000, () => {
+          this.player.winWalk();
+        })
+      })
+    })
+
+
+  }
+
+  private createEndCredits() {
+    const textHeader = "Congratulations!";
+    const textBody = "You survived another day of work. Now you are free and ready to smoke listen rock music ... "
+    const textEnd = "... be prepared for another ..."
+
+    const x = this.game.canvas.width / 2;
+    const y = this.game.canvas.height / 2;
+    const coffeInstructions = this.add.text(x, y, "", {
+      fontSize: "20px",
+      color: "#fff",
+      align: "center"
+    });
+
+    let i = 0;
+    let text = "";
+    this.time.addEvent({
+      delay: 50,
+      repeat: textHeader.length - 1,
+      callback: () => {
+        text = text + textHeader[i];
+        coffeInstructions.setText(text);
+        i++;
+      },
+
+    })
   }
 
 
