@@ -9,11 +9,17 @@ export class StartScene extends Scene {
   private platforms: Phaser.Physics.Arcade.Group;
   private spotlight: Phaser.GameObjects.Arc;
   private coffee: CoffeeItem;
+  private skip: boolean = false;
+
 
   constructor() {
     super({
       key: 'StartScene',
     });
+  }
+
+  public init(data: any) {
+    this.skip = data && data.skip;
   }
 
   public create() {
@@ -22,7 +28,11 @@ export class StartScene extends Scene {
     this.createPlayer();
     this.createCoffee();
     this.createCollisions();
-    this.createShadow();
+    if (!this.skip) {
+      this.createShadow();
+    } else {
+      this.createMainStartScene();
+    }
   }
 
   public startGame() {
@@ -185,22 +195,10 @@ export class StartScene extends Scene {
         onComplete: () => {
           obstacleExample.destroy();
 
-          this.time.delayedCall(1000, () => {
-            this.add.text(
-              this.game.canvas.width / 2,
-              this.game.canvas.height / 2, "press [SPACE] to start", {
-              fontSize: '48px',
-              color: "black",
-              fontFamily: "bulkypix",
-              align: "center"
-            }).setWordWrapWidth(1100).setOrigin(0.5);
-
-            const k = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-
-            k.on('down', () => {
-              this.scene.start('GameScene');
-            })
-
+          this.time.delayedCall(5000, () => {
+            coffeInstructions.destroy();
+            instructionImage.destroy();
+            this.createMainStartScene();
           })
         }
       })
@@ -210,4 +208,30 @@ export class StartScene extends Scene {
 
   }
 
+  private createMainStartScene() {
+    this.player.setPosition(this.game.canvas.width / 2, 594);
+    this.coffee.destroy();
+    this.add.text(
+      this.game.canvas.width / 2,
+      this.game.canvas.height / 2 - 100, "- Coffee at work -", {
+      fontSize: '48px',
+      color: "black",
+      fontFamily: "bulkypix",
+      align: "center"
+    }).setWordWrapWidth(1100).setOrigin(0.5);
+    this.add.text(
+      this.game.canvas.width / 2,
+      this.game.canvas.height / 2, "press [SPACE] to start", {
+      fontSize: '48px',
+      color: "black",
+      fontFamily: "bulkypix",
+      align: "center"
+    }).setWordWrapWidth(1100).setOrigin(0.5);
+
+    const k = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
+    k.on('down', () => {
+      this.scene.start('GameScene');
+    })
+  }
 }

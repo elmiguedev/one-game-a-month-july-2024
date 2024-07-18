@@ -70,13 +70,14 @@ export class BootloaderScene extends Scene {
   public startGame() {
     let alpha = 1;
     this.time.addEvent({
-      delay: 10,
+      delay: 5,
       loop: true,
       callback: () => {
         alpha -= 0.01;
         this.loader.setAlpha(alpha);
         if (alpha <= 0) {
           this.scene.start('StartScene');
+          // this.scene.start('GameScene');
         }
       }
     })

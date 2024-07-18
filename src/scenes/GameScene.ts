@@ -6,6 +6,7 @@ import { COFFEE_LEVEL, INITIAL_COFFEE_LEVEL, INITIAL_LEVEL_VELOCITY, ITEMS_HEIGH
 import { Utils } from "../utlis/Utils";
 import { RaidFactory } from "../entities/raids/RaidFactory";
 import { SoundManager } from "../utlis/SoundManager";
+import { TypingText } from "../entities/ui/TypingText";
 
 export class GameScene extends Scene {
   private platforms: Phaser.Physics.Arcade.Group
@@ -219,6 +220,7 @@ export class GameScene extends Scene {
     this.spotlight.setRadius(2000);
     this.coffeTimer.destroy();
     this.time.delayedCall(2000, () => {
+      this.createEndCredits();
       this.player.win();
       this.time.delayedCall(1000, () => {
         this.player.smoke();
@@ -234,28 +236,44 @@ export class GameScene extends Scene {
   private createEndCredits() {
     const textHeader = "Congratulations!";
     const textBody = "You survived another day of work. Now you are free and ready to smoke listen rock music ... "
-    const textEnd = "... be prepared for another ..."
+    const textEnd = "...and be prepared for another ..."
 
     const x = this.game.canvas.width / 2;
-    const y = this.game.canvas.height / 2;
-    const coffeInstructions = this.add.text(x, y, "", {
-      fontSize: "20px",
-      color: "#fff",
-      align: "center"
-    });
+    const y = 200;
 
-    let i = 0;
-    let text = "";
-    this.time.addEvent({
-      delay: 50,
-      repeat: textHeader.length - 1,
-      callback: () => {
-        text = text + textHeader[i];
-        coffeInstructions.setText(text);
-        i++;
-      },
+    const header = new TypingText(this, x, y, textHeader)
+      .setOrigin(0.5);
+    const body = new TypingText(this, x, y + 80, textBody)
+      .setOrigin(0.5, 0)
+      .setWordWrapWidth(1100);
+    const end = new TypingText(this, x, y, textEnd)
+      .setOrigin(0.5, 0)
+      .setWordWrapWidth(1100);
 
-    })
+    header.onFinish = () => {
+      this.time.delayedCall(1000, () => {
+        body.start();
+      })
+    }
+    body.onFinish = () => {
+      this.time.delayedCall(2000, () => {
+        header.destroy();
+        body.destroy();
+        this.time.delayedCall(1500, () => {
+          end.start();
+        })
+      })
+
+    }
+
+    end.onFinish = () => {
+      this.time.delayedCall(5000, () => {
+        this.scene.start('StartScene', { skip: true });
+      })
+    }
+
+    header.start();
+
   }
 
 
