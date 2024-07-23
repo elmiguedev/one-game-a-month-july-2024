@@ -1,5 +1,4 @@
 import { Scene } from "phaser";
-import DotPng from "../assets/sprites/dot.png";
 import { Loader } from "../entities/loader/Loader";
 
 export class BootloaderScene extends Scene {
@@ -11,9 +10,11 @@ export class BootloaderScene extends Scene {
     });
   }
 
-  public preload() {
+  public async preload() {
     this.loader = new Loader(this);
-    this.load.image('dot', DotPng);
+    this.loadTileset('terrain');
+    this.loadAseprite("robot");
+    this.loadTilemap("world");
 
     this.load.on('progress', (value: number) => {
       this.loader.update(value);
@@ -37,6 +38,27 @@ export class BootloaderScene extends Scene {
         }
       }
     })
+  }
+
+  private loadAseprite(key: string) {
+    const png = new URL(`../assets/sprites/${key}/${key}.png`, import.meta.url).href;
+    const json = new URL(`../assets/sprites/${key}/${key}.json`, import.meta.url).href;
+    this.load.aseprite(key, png, json);
+  }
+
+  private loadImage(key: string) {
+    const png = new URL(`../assets/sprites/${key}/${key}.png`, import.meta.url).href;
+    this.load.image(key, png);
+  }
+
+  private loadTileset(key: string) {
+    const png = new URL(`../assets/tilesets/${key}/${key}.png`, import.meta.url).href;
+    this.load.image(key, png);
+  }
+
+  private loadTilemap(key: string) {
+    const json = new URL(`../assets/maps/${key}.json`, import.meta.url).href;
+    this.load.tilemapTiledJSON(key, json);
   }
 
 

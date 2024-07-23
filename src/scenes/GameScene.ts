@@ -1,6 +1,8 @@
 import { Scene } from "phaser";
 import { GameHud } from "../entities/GameHud";
 import { SoundManager } from "../utlis/SoundManager";
+import { TileMap } from "../entities/map/TileMap";
+import { Robot } from "../entities/robot/Robot";
 
 export class GameScene extends Scene {
   private hud: GameHud;
@@ -16,6 +18,8 @@ export class GameScene extends Scene {
     this.createCamera();
     this.createHud();
     this.createMusic();
+    this.createMap();
+    this.createRobot();
   }
 
 
@@ -38,6 +42,34 @@ export class GameScene extends Scene {
     this.sound.stopAll();
     SoundManager.getInstance(this).playGameLoop();
   }
+
+  private createRobot() {
+    const robot = new Robot(this, 1600, 1600);
+    this.cameras.main.startFollow(robot);
+
+    const left = this.input.keyboard.addKey("LEFT");
+    const right = this.input.keyboard.addKey("RIGHT");
+    const up = this.input.keyboard.addKey("UP");
+    const down = this.input.keyboard.addKey("DOWN");
+
+    left.on('down', () => {
+      robot.x -= 160;
+    });
+    right.on('down', () => {
+      robot.x += 160;
+    });
+    up.on('down', () => {
+      robot.y -= 160;
+    });
+    down.on('down', () => {
+      robot.y += 160;
+    });
+  }
+
+  private createMap() {
+    const map = new TileMap(this);
+  }
+
 
 
 }

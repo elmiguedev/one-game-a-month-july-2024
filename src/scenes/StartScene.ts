@@ -17,6 +17,8 @@ export class StartScene extends Scene {
   public create() {
     this.createCamera();
     this.createMenu();
+
+    this.startGame();
   }
 
   public startGame() {

@@ -1,0 +1,38 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "world.json",
+    "expandedProjectPaths": [
+    ],
+    "fileStates": {
+        "world.json": {
+            "scale": 2.2008333333333336,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 192.1999242711094,
+                "y": 184.92995077622106
+            }
+        },
+        "world.json#terrain": {
+            "scaleInDock": 1
+        }
+    },
+    "last.imagePath": "C:/Users/mmoya/Repositorios/juegos/jams/one-game-a-month-july-2024/src/assets/tilesets/terrain",
+    "map.lastUsedFormat": "json",
+    "map.tileHeight": 16,
+    "map.tileWidth": 16,
+    "openFiles": [
+        "world.json"
+    ],
+    "project": "world.tiled-project",
+    "recentFiles": [
+        "world.json"
+    ],
+    "tileset.embedInMap": true,
+    "tileset.tileSize": {
+        "height": 16,
+        "width": 16
+    }
+}
