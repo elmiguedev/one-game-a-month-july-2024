@@ -16,23 +16,7 @@ export class SoundManager {
     this.scene.sound.play(sound);
   }
 
-  playJump() {
-    this.play("jump");
-  }
-
-  playCoffee() {
-    this.play("coffee");
-  }
-
-  playHit() {
-    this.play("hit");
-  }
-
   playGameLoop() {
-    this.scene.sound.play("game", {
-      loop: true,
-      volume: 0.6
-    })
   }
 
 
