@@ -19,6 +19,7 @@ export class BootloaderScene extends Scene {
 
     this.loadTileset('terrain');
     this.loadAseprite("robot");
+    this.loadAseprite("enemy");
     this.loadTilemap("world");
 
     this.load.on('progress', (value: number) => {
