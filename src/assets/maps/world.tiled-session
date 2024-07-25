@@ -27,6 +27,7 @@
         "world.json"
     ],
     "project": "world.tiled-project",
+    "property.type": "bool",
     "recentFiles": [
         "world.json"
     ],

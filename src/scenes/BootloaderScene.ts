@@ -19,7 +19,6 @@ export class BootloaderScene extends Scene {
 
     this.loadTileset('terrain');
     this.loadAseprite("robot");
-    this.loadAseprite("enemy");
     this.loadTilemap("world");
 
     this.load.on('progress', (value: number) => {
@@ -82,7 +81,7 @@ export class BootloaderScene extends Scene {
   }
 
   private loadImage(key: string) {
-    const png = new URL(`../assets/sprites/${key}/${key}.png`, import.meta.url).href;
+    const png = new URL(`../assets/images/${key}/${key}.png`, import.meta.url).href;
     this.load.image(key, png);
   }
 

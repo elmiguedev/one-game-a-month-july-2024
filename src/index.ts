@@ -15,7 +15,10 @@ export default new Game({
     pixelArt: true
   },
   physics: {
-    default: "arcade"
+    default: "arcade",
+    arcade: {
+      debug: true
+    }
   },
   backgroundColor: "#000000",
   scene: [
