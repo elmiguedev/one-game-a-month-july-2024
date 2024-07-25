@@ -11,12 +11,19 @@
             "scaleInDock": 1,
             "scaleInEditor": 1
         },
+        "C:/Users/mmoya/Repositorios/juegos/jams/one-game-a-month-july-2024/src/assets/tilesets/terrain/terrain.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
         "house.json": {
+            "expandedObjectLayers": [
+                6
+            ],
             "scale": 5.29625,
-            "selectedLayer": 2,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 93.651168279443,
-                "y": 93.46235544016993
+                "x": 93.08472976162379,
+                "y": 92.70710408307765
             }
         },
         "house.json#tileset": {
@@ -30,14 +37,15 @@
             "scale": 2,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 146,
-                "y": 147.5
+                "x": 144.5,
+                "y": 146
             }
         },
         "world.json#terrain": {
             "scaleInDock": 1
         }
     },
+    "last.externalTilesetPath": "C:/Users/mmoya/Repositorios/juegos/jams/one-game-a-month-july-2024/src/assets/tilesets/terrain",
     "last.imagePath": "C:/Users/mmoya/Repositorios/juegos/jams/one-game-a-month-july-2024/src/assets/tilesets/terrain",
     "map.height": 10,
     "map.lastUsedFormat": "json",
@@ -49,12 +57,15 @@
         "house.json"
     ],
     "project": "world.tiled-project",
-    "property.type": "string",
+    "property.type": "bool",
     "recentFiles": [
+        "C:/Users/mmoya/Repositorios/juegos/jams/one-game-a-month-july-2024/src/assets/tilesets/terrain/terrain.tsx",
         "house.json",
         "world.json"
     ],
-    "tileset.embedInMap": true,
+    "tileset.embedInMap": false,
+    "tileset.lastUsedFilter": "Archivos de conjuntos de patrones Tiled (*.tsx *.xml)",
+    "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {
         "height": 16,
         "width": 16
