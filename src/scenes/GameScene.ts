@@ -66,19 +66,30 @@ export class GameScene extends Scene {
       }
     });
     up.on('down', () => {
-      const position = robot.getGridPosition();
+      let position = robot.getGridPosition();
       if (!this.map.hasSolid(position.x, position.y - 1)) {
         robot.move(0, -1);
+
+        const portal = this.map.getPortal(robot.getGridPosition().x, robot.getGridPosition().y);
+        console.log(portal)
+        if (portal) {
+          this.map.changeMap(portal.portal);
+          robot.setGridPosition(portal.x, portal.y);
+        }
       }
     });
     down.on('down', () => {
       const position = robot.getGridPosition();
       if (!this.map.hasSolid(position.x, position.y + 1)) {
         robot.move(0, 1);
+        const portal = this.map.getPortal(robot.getGridPosition().x, robot.getGridPosition().y);
+        console.log(portal)
+        if (portal) {
+          this.map.changeMap(portal.portal);
+          robot.setGridPosition(portal.x, portal.y);
+        }
       }
     });
-
-    this.physics.add.collider(robot, this.map.walls);
   }
 
   private createMap() {

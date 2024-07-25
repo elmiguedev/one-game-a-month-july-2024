@@ -7,12 +7,31 @@
     "expandedProjectPaths": [
     ],
     "fileStates": {
-        "world.json": {
-            "scale": 2.2008333333333336,
-            "selectedLayer": 0,
+        "": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "house.json": {
+            "scale": 5.29625,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 192.1999242711094,
-                "y": 184.92995077622106
+                "x": 93.651168279443,
+                "y": 93.46235544016993
+            }
+        },
+        "house.json#tileset": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "world.json": {
+            "expandedObjectLayers": [
+                3
+            ],
+            "scale": 2,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 146,
+                "y": 147.5
             }
         },
         "world.json#terrain": {
@@ -20,15 +39,19 @@
         }
     },
     "last.imagePath": "C:/Users/mmoya/Repositorios/juegos/jams/one-game-a-month-july-2024/src/assets/tilesets/terrain",
+    "map.height": 10,
     "map.lastUsedFormat": "json",
     "map.tileHeight": 16,
     "map.tileWidth": 16,
+    "map.width": 10,
     "openFiles": [
-        "world.json"
+        "world.json",
+        "house.json"
     ],
     "project": "world.tiled-project",
-    "property.type": "bool",
+    "property.type": "string",
     "recentFiles": [
+        "house.json",
         "world.json"
     ],
     "tileset.embedInMap": true,

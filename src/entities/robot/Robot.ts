@@ -1,13 +1,13 @@
-import { SCALE_FACTOR, TILE_SIZE } from "../../constants";
+import { ROBOT_DEPTH, SCALE_FACTOR, TILE_SIZE } from "../../constants";
 
-export class Robot extends Phaser.Physics.Arcade.Sprite {
+export class Robot extends Phaser.GameObjects.Sprite {
 
   constructor(scene: Phaser.Scene, x: number, y: number) {
     super(scene, x, y, "robot");
     this.scene.add.existing(this);
-    this.scene.physics.add.existing(this);
     this.setOrigin(0);
     this.setScale(SCALE_FACTOR);
+    this.setDepth(ROBOT_DEPTH)
     this.setGridPosition(x, y);
   }
 

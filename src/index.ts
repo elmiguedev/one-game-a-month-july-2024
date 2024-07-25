@@ -14,12 +14,6 @@ export default new Game({
   render: {
     pixelArt: true
   },
-  physics: {
-    default: "arcade",
-    arcade: {
-      debug: true
-    }
-  },
   backgroundColor: "#000000",
   scene: [
     BootloaderScene,
